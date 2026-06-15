@@ -288,29 +288,41 @@ function App() {
 
 function Hero() {
   const videoRef = useRef(null);
-  const [isVideoReady, setIsVideoReady] = useState(false);
+  const [hasVideoError, setHasVideoError] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return undefined;
 
-    const markReady = () => setIsVideoReady(true);
+    const markReady = () => setHasVideoError(false);
     const play = () => {
       const promise = video.play();
       if (promise && typeof promise.catch === 'function') promise.catch(() => {});
     };
+    const playWhenVisible = () => {
+      if (!document.hidden) play();
+    };
 
+    video.load();
     play();
     if (video.readyState >= 2) markReady();
     video.addEventListener('loadeddata', markReady, { once: true });
     video.addEventListener('canplay', markReady, { once: true });
     video.addEventListener('playing', markReady, { once: true });
     video.addEventListener('canplay', play, { once: true });
+    document.addEventListener('visibilitychange', playWhenVisible);
+    ['pointerdown', 'touchstart', 'click', 'scroll'].forEach((eventName) => {
+      window.addEventListener(eventName, play, { once: true, passive: true });
+    });
     return () => {
       video.removeEventListener('loadeddata', markReady);
       video.removeEventListener('canplay', markReady);
       video.removeEventListener('playing', markReady);
       video.removeEventListener('canplay', play);
+      document.removeEventListener('visibilitychange', playWhenVisible);
+      ['pointerdown', 'touchstart', 'click', 'scroll'].forEach((eventName) => {
+        window.removeEventListener(eventName, play);
+      });
     };
   }, []);
 
@@ -319,17 +331,17 @@ function Hero() {
       <img className="hero-fallback-image" src="assets/hero-poster.jpg" alt="" aria-hidden="true" decoding="async" />
       <video
         ref={videoRef}
-        className={`hero-video${isVideoReady ? ' is-video-ready' : ''}`}
+        className={`hero-video${hasVideoError ? ' has-video-error' : ''}`}
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
         poster="assets/hero-poster.jpg"
-        onLoadedData={() => setIsVideoReady(true)}
-        onCanPlay={() => setIsVideoReady(true)}
-        onPlaying={() => setIsVideoReady(true)}
-        onError={() => setIsVideoReady(false)}
+        onLoadedData={() => setHasVideoError(false)}
+        onCanPlay={() => setHasVideoError(false)}
+        onPlaying={() => setHasVideoError(false)}
+        onError={() => setHasVideoError(true)}
       >
         <source src="assets/hero-motion.mp4" type="video/mp4" />
       </video>

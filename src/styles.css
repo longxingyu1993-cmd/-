@@ -281,13 +281,13 @@ video {
   z-index: -3;
   object-fit: cover;
   background: #000;
-  opacity: 0;
+  opacity: 1;
   filter: grayscale(0.04) saturate(1) brightness(0.96) contrast(1.04);
   transition: opacity 480ms ease;
 }
 
-.hero-video.is-video-ready {
-  opacity: 1;
+.hero-video.has-video-error {
+  opacity: 0;
 }
 
 .hero-overlay {

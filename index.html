@@ -225,7 +225,7 @@
         height: 1080px;
         object-fit: cover;
         background: #000;
-        opacity: 0;
+        opacity: 1;
         filter: grayscale(0.04) saturate(1) brightness(1.02) contrast(1.04);
         transition: opacity 480ms ease;
       }
@@ -233,10 +233,6 @@
       .mobile-hero,
       .mobile-hero video {
         background: #000;
-      }
-
-      .video-bg.is-video-ready {
-        opacity: 1;
       }
 
       .video-bg.has-video-error {
@@ -1587,13 +1583,9 @@
           height: 100%;
           object-fit: cover;
           background: #000;
-          opacity: 0;
+          opacity: 0.78;
           filter: brightness(1.08) contrast(1.06) saturate(1.04);
           transition: opacity 480ms ease;
-        }
-
-        .mobile-hero video.is-video-ready {
-          opacity: 0.78;
         }
 
         .mobile-video-fallback {
@@ -3447,6 +3439,13 @@
           video.setAttribute('playsinline', '');
           video.setAttribute('webkit-playsinline', '');
 
+          const tryPlay = () => {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          };
+
           if (video.readyState >= 2) markVideoReady(video);
 
           ['loadeddata', 'canplay', 'playing'].forEach((eventName) => {
@@ -3458,12 +3457,16 @@
             video.classList.add('has-video-error');
           });
 
-          const playPromise = video.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {
-              video.classList.remove('is-video-ready');
-            });
-          }
+          video.load();
+          tryPlay();
+
+          ['pointerdown', 'touchstart', 'click', 'scroll'].forEach((eventName) => {
+            window.addEventListener(eventName, tryPlay, { once: true, passive: true });
+          });
+
+          document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) tryPlay();
+          });
         });
       })();
     </script>
