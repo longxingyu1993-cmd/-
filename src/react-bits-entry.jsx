@@ -35,15 +35,15 @@ function mountCountUp() {
 }
 
 const toolLogos = [
-  { src: 'public/assets/tools/tool-sketch.svg', alt: 'Sketch' },
-  { src: 'public/assets/tools/tool-figma.svg', alt: 'Figma' },
-  { src: 'public/assets/tools/tool-comfyui.svg', alt: 'ComfyUI' },
-  { src: 'public/assets/tools/tool-blender.svg', alt: 'Blender' },
-  { src: 'public/assets/tools/tool-codex.svg', alt: 'Codex' },
-  { src: 'public/assets/tools/tool-photoshop.svg', alt: 'Photoshop' },
-  { src: 'public/assets/tools/tool-illustrator.svg', alt: 'Illustrator' },
-  { src: 'public/assets/tools/tool-after-effects.svg', alt: 'After Effects' },
-  { src: 'public/assets/tools/tool-premiere-pro.svg', alt: 'Premiere Pro' },
+  { src: 'assets/tools/tool-sketch.svg', alt: 'Sketch' },
+  { src: 'assets/tools/tool-figma.svg', alt: 'Figma' },
+  { src: 'assets/tools/tool-comfyui.svg', alt: 'ComfyUI' },
+  { src: 'assets/tools/tool-blender.svg', alt: 'Blender' },
+  { src: 'assets/tools/tool-codex.svg', alt: 'Codex' },
+  { src: 'assets/tools/tool-photoshop.svg', alt: 'Photoshop' },
+  { src: 'assets/tools/tool-illustrator.svg', alt: 'Illustrator' },
+  { src: 'assets/tools/tool-after-effects.svg', alt: 'After Effects' },
+  { src: 'assets/tools/tool-premiere-pro.svg', alt: 'Premiere Pro' },
 ];
 
 function mountLogoLoops() {

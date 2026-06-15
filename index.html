@@ -1,19 +1,38 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" style="background:#000;color-scheme:dark;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
     <meta
       name="description"
       content="龙星宇个人作品集，UI 设计师、UX / 交互设计师、产品助理。"
     />
     <title>龙星宇 | Personal Portfolio</title>
-    <link rel="preload" as="image" href="public/assets/hero-poster.jpg" fetchpriority="high" />
+    <style>
+      html,
+      body,
+      #viewport,
+      #frame {
+        background: #000;
+      }
+
+      body {
+        margin: 0;
+        color: #eef5f2;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      }
+    </style>
+    <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high" />
     <style>
       :root {
         --gin: #eef5f2;
         --lime: #94ff27;
         --line: rgba(238, 245, 242, 0.13);
+        --frame-scale: 1;
+        --frame-fullbleed-left: 0px;
+        --frame-viewport-width: 1909px;
       }
 
       * {
@@ -185,7 +204,7 @@
         width: 1909px;
         height: 5668px;
         margin: 0 auto;
-        overflow: hidden;
+        overflow: visible;
         transform-origin: top left;
         background: #000;
         will-change: transform;
@@ -199,7 +218,10 @@
       .video-bg {
         position: absolute;
         inset: 0 0 auto;
-        width: 1909px;
+        right: auto;
+        left: var(--frame-fullbleed-left);
+        width: var(--frame-viewport-width);
+        max-width: none;
         height: 1080px;
         object-fit: cover;
         opacity: 1;
@@ -209,7 +231,10 @@
       .video-mask {
         position: absolute;
         inset: 0 0 auto;
-        width: 1909px;
+        right: auto;
+        left: var(--frame-fullbleed-left);
+        width: var(--frame-viewport-width);
+        max-width: none;
         height: 1080px;
         pointer-events: none;
         background:
@@ -261,11 +286,12 @@
 
       .liquid-ether-bg {
         position: absolute;
-        left: 0;
+        left: var(--frame-fullbleed-left);
         top: 1080px;
         z-index: auto;
         display: block;
-        width: 1909px;
+        width: var(--frame-viewport-width);
+        max-width: none;
         height: 4588px;
         pointer-events: none;
         opacity: 1;
@@ -917,9 +943,10 @@
 
       .tool-marquee {
         position: absolute;
-        left: 0;
+        left: var(--frame-fullbleed-left);
         top: 3220px;
-        width: 1909px;
+        width: var(--frame-viewport-width);
+        max-width: none;
         height: 100px;
         overflow: hidden;
         background:
@@ -957,7 +984,13 @@
         top: 33px;
         width: 100%;
         height: 34px;
+        padding: 0 72px;
         overflow: hidden;
+      }
+
+      .tool-marquee .portfolio-logo-loop {
+        width: 100%;
+        padding: 0 72px;
       }
 
       .tool-marquee-track {
@@ -2378,7 +2411,7 @@
       }
     </style>
   </head>
-  <body>
+  <body style="background:#000;color:#eef5f2;">
     <main id="viewport">
       <section id="frame">
         <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true" focusable="false">
@@ -2389,8 +2422,8 @@
             <path d="M12.5357 1.39282H0.464286C0.207478 1.39282 0 1.6003 0 1.85711V11.1428C0 11.3996 0.207478 11.6071 0.464286 11.6071H12.5357C12.7925 11.6071 13 11.3996 13 11.1428V1.85711C13 1.6003 12.7925 1.39282 12.5357 1.39282ZM11.9554 3.00041V10.5625H1.04464V3.00041L0.644196 2.68847L1.2144 1.95577L1.83538 2.43892H11.1661L11.7871 1.95577L12.3573 2.68847L11.9554 3.00041ZM11.1661 2.43747L6.5 6.0647L1.83393 2.43747L1.21295 1.95432L0.642746 2.68702L1.04319 2.99896L5.99944 6.85253C6.14198 6.96327 6.31733 7.02338 6.49782 7.02338C6.67832 7.02338 6.85367 6.96327 6.99621 6.85253L11.9554 3.00041L12.3558 2.68847L11.7856 1.95577L11.1661 2.43747Z" fill="currentColor" />
           </symbol>
         </svg>
-        <video class="video-bg" autoplay muted loop playsinline preload="metadata" poster="public/assets/hero-poster.jpg">
-          <source src="public/assets/hero-motion.mp4" type="video/mp4" />
+        <video class="video-bg" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+          <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
         <div id="liquidEtherBg" class="liquid-ether-bg" aria-hidden="true"></div>
         <div class="video-mask"></div>
@@ -2477,26 +2510,26 @@
             <div class="tool-marquee-row" data-direction="left" aria-hidden="true">
               <div class="tool-marquee-track">
                 <div class="tool-marquee-sequence">
-                  <img src="public/assets/tools/tool-sketch.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-figma.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-comfyui.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-blender.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-codex.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-photoshop.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-illustrator.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-after-effects.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-premiere-pro.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-sketch.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-figma.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-comfyui.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-blender.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-codex.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-photoshop.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-illustrator.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-after-effects.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-premiere-pro.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
                 </div>
                 <div class="tool-marquee-sequence">
-                  <img src="public/assets/tools/tool-sketch.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-figma.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-comfyui.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-blender.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-codex.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-photoshop.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-illustrator.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-after-effects.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
-                  <img src="public/assets/tools/tool-premiere-pro.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-sketch.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-figma.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-comfyui.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-blender.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-codex.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-photoshop.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-illustrator.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-after-effects.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
+                  <img src="assets/tools/tool-premiere-pro.svg" alt="" width="112" height="30" loading="lazy" decoding="async" />
                 </div>
               </div>
             </div>
@@ -2508,7 +2541,7 @@
         <h2 class="absolute flex items-center font-cn text-[46px] leading-[54px] font-semibold text-gin" style="left:104px;top:3514px;width:1044px;height:54px">作品</h2>
 
         <button class="project-card" style="left:104px;top:3588px" data-detail="bsec" data-project="B端·网安系统/SAAS/组件库|面向政企安全的 B 端系统与 SAAS 组件库，负责 UI 改版、组件规范、原型和交付文档。">
-          <img src="public/assets/work-optimized/work-bsec-saas.jpg" alt="B端·网安系统/SAAS/组件库" loading="lazy" decoding="async" />
+          <img src="assets/work-optimized/work-bsec-saas.jpg" alt="B端·网安系统/SAAS/组件库" loading="lazy" decoding="async" />
           <div class="project-info"></div>
           <p class="absolute font-inter text-[12px] leading-[14px] text-lime" style="left:24px;top:331px">2025</p>
           <p class="absolute font-inter text-[12px] leading-[14px] text-[rgba(238,245,242,0.48)]" style="left:62px;top:331px">B-end · Cybersecurity system</p>
@@ -2517,7 +2550,7 @@
         </button>
 
         <button class="project-card" style="left:676px;top:3588px" data-detail="mobile" data-project="移动端项目集合|AI 工具、移动端应用和高效任务流界面集合，强调入口清晰和结果呈现。">
-          <img src="public/assets/work-optimized/work-mobile-collection.jpg" alt="移动端项目集合" loading="lazy" decoding="async" />
+          <img src="assets/work-optimized/work-mobile-collection.jpg" alt="移动端项目集合" loading="lazy" decoding="async" />
           <div class="project-info"></div>
           <p class="absolute font-inter text-[12px] leading-[14px] text-lime" style="left:24px;top:331px">2024</p>
           <p class="absolute font-inter text-[12px] leading-[14px] text-[rgba(238,245,242,0.48)]" style="left:62px;top:331px">Mobile terminal</p>
@@ -2526,7 +2559,7 @@
         </button>
 
         <button class="project-card" style="left:1248px;top:3588px" data-detail="screen" data-project="可视化大屏系统|面向数据分析、态势感知和监控场景的大屏视觉系统。">
-          <img src="public/assets/work-optimized/work-data-screen.jpg" alt="可视化大屏系统" loading="lazy" decoding="async" />
+          <img src="assets/work-optimized/work-data-screen.jpg" alt="可视化大屏系统" loading="lazy" decoding="async" />
           <div class="project-info"></div>
           <p class="absolute font-inter text-[12px] leading-[14px] text-lime" style="left:24px;top:331px">2023</p>
           <p class="absolute font-inter text-[12px] leading-[14px] text-[rgba(238,245,242,0.48)]" style="left:62px;top:331px">Visual large screen system</p>
@@ -2535,7 +2568,7 @@
         </button>
 
         <button class="project-card" style="left:105px;top:4049px" data-detail="visual" data-project="创意视觉设计|品牌 KV、平面物料和视觉包装探索。">
-          <img src="public/assets/work-optimized/work-visual-design.jpg" alt="创意视觉设计" loading="lazy" decoding="async" />
+          <img src="assets/work-optimized/work-visual-design.jpg" alt="创意视觉设计" loading="lazy" decoding="async" />
           <div class="project-info"></div>
           <p class="absolute font-inter text-[12px] leading-[14px] text-lime" style="left:24px;top:331px">2025</p>
           <p class="absolute font-inter text-[12px] leading-[14px] text-[rgba(238,245,242,0.48)]" style="left:62px;top:331px">Visual design</p>
@@ -2544,7 +2577,7 @@
         </button>
 
         <button class="project-card" style="left:677px;top:4049px" data-project="AI概念设计|结合 ComfyUI、三维和视频动效进行概念视觉生产。">
-          <img src="public/assets/work-optimized/work-ai-concept.jpg" alt="AI概念设计" loading="lazy" decoding="async" />
+          <img src="assets/work-optimized/work-ai-concept.jpg" alt="AI概念设计" loading="lazy" decoding="async" />
           <div class="project-info"></div>
           <p class="absolute font-inter text-[12px] leading-[14px] text-lime" style="left:24px;top:331px">2024</p>
           <p class="absolute font-inter text-[12px] leading-[14px] text-[rgba(238,245,242,0.48)]" style="left:62px;top:331px">AI Concept design</p>
@@ -2629,8 +2662,8 @@
 
     <main id="mobileLayout" class="mobile-shell" aria-label="移动端作品集">
       <section id="m-home" class="mobile-hero">
-        <video autoplay muted loop playsinline preload="metadata" poster="public/assets/hero-poster.jpg">
-          <source src="public/assets/hero-motion.mp4" type="video/mp4" />
+        <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+          <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
         <div class="mobile-container">
           <div class="mobile-top">
@@ -2778,23 +2811,23 @@
           <h2 class="mobile-heading">作品</h2>
           <div class="mobile-works">
             <button class="mobile-work-card" type="button" data-detail="bsec" data-project="B端·网安系统/SAAS/组件库|面向政企安全的 B 端系统与 SAAS 组件库，负责 UI 改版、组件规范、原型和交付文档。">
-              <img src="public/assets/work-optimized/work-bsec-saas.jpg" alt="B端·网安系统/SAAS/组件库" loading="lazy" decoding="async" />
+              <img src="assets/work-optimized/work-bsec-saas.jpg" alt="B端·网安系统/SAAS/组件库" loading="lazy" decoding="async" />
               <div><p><span>2025</span> B-end · Cybersecurity system</p><h3>B端·网安系统/SAAS/组件库</h3><small>政企安全 / B端平台 / 产品助理</small></div>
             </button>
             <button class="mobile-work-card" type="button" data-detail="mobile" data-project="移动端项目集合|AI 工具、移动端应用和高效任务流界面集合，强调入口清晰和结果呈现。">
-              <img src="public/assets/work-optimized/work-mobile-collection.jpg" alt="移动端项目集合" loading="lazy" decoding="async" />
+              <img src="assets/work-optimized/work-mobile-collection.jpg" alt="移动端项目集合" loading="lazy" decoding="async" />
               <div><p><span>2024</span> Mobile terminal</p><h3>移动端项目集合</h3><small>AI工具 / 移动端合集</small></div>
             </button>
             <button class="mobile-work-card" type="button" data-detail="screen" data-project="可视化大屏系统|面向数据分析、态势感知和监控场景的大屏视觉系统。">
-              <img src="public/assets/work-optimized/work-data-screen.jpg" alt="可视化大屏系统" loading="lazy" decoding="async" />
+              <img src="assets/work-optimized/work-data-screen.jpg" alt="可视化大屏系统" loading="lazy" decoding="async" />
               <div><p><span>2023</span> Visual large screen system</p><h3>可视化大屏系统</h3><small>数据分析 / B端系统</small></div>
             </button>
             <button class="mobile-work-card" type="button" data-detail="visual" data-project="创意视觉设计|品牌 KV、平面物料和视觉包装探索。">
-              <img src="public/assets/work-optimized/work-visual-design.jpg" alt="创意视觉设计" loading="lazy" decoding="async" />
+              <img src="assets/work-optimized/work-visual-design.jpg" alt="创意视觉设计" loading="lazy" decoding="async" />
               <div><p><span>2025</span> Visual design</p><h3>创意视觉设计</h3><small>平面设计</small></div>
             </button>
             <button class="mobile-work-card" type="button" data-project="AI概念设计|结合 ComfyUI、三维和视频动效进行概念视觉生产。">
-              <img src="public/assets/work-optimized/work-ai-concept.jpg" alt="AI概念设计" loading="lazy" decoding="async" />
+              <img src="assets/work-optimized/work-ai-concept.jpg" alt="AI概念设计" loading="lazy" decoding="async" />
               <div><p><span>2024</span> AI Concept design</p><h3>AI概念设计</h3><small>ComfyUI</small></div>
             </button>
           </div>
@@ -2887,22 +2920,22 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:237px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/项目管理-流量解密(展开)5.jpg" data-full="public/assets/case-bsec/项目管理-流量解密(展开)5.jpg" alt="项目管理-流量解密展开页面" />
+            <img data-src="assets/case-optimized/case-bsec/项目管理-流量解密(展开)5.jpg" data-full="assets/case-bsec/项目管理-流量解密(展开)5.jpg" alt="项目管理-流量解密展开页面" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:237px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/数据研判-网络威胁2.jpg" data-full="public/assets/case-bsec/数据研判-网络威胁2.jpg" alt="数据研判-网络威胁页面二" />
+            <img data-src="assets/case-optimized/case-bsec/数据研判-网络威胁2.jpg" data-full="assets/case-bsec/数据研判-网络威胁2.jpg" alt="数据研判-网络威胁页面二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:578px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/威胁告警功能-用户标记3.jpg" data-full="public/assets/case-bsec/威胁告警功能-用户标记3.jpg" alt="威胁告警用户标记页面" />
+            <img data-src="assets/case-optimized/case-bsec/威胁告警功能-用户标记3.jpg" data-full="assets/case-bsec/威胁告警功能-用户标记3.jpg" alt="威胁告警用户标记页面" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:578px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/数据研判-网络威胁.jpg" data-full="public/assets/case-bsec/数据研判-网络威胁.jpg" alt="数据研判-网络威胁页面" />
+            <img data-src="assets/case-optimized/case-bsec/数据研判-网络威胁.jpg" data-full="assets/case-bsec/数据研判-网络威胁.jpg" alt="数据研判-网络威胁页面" />
           </figure>
           <figure class="case-image-card" style="left:0;top:919px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/54.jpg" data-full="public/assets/case-bsec/54.jpg" alt="全流量系统脱敏页面一" />
+            <img data-src="assets/case-optimized/case-bsec/54.jpg" data-full="assets/case-bsec/54.jpg" alt="全流量系统脱敏页面一" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:919px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/56.jpg" data-full="public/assets/case-bsec/56.jpg" alt="全流量系统脱敏页面二" />
+            <img data-src="assets/case-optimized/case-bsec/56.jpg" data-full="assets/case-bsec/56.jpg" alt="全流量系统脱敏页面二" />
           </figure>
         </section>
 
@@ -2924,22 +2957,22 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:237px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/可视化管理-大屏管理-新建大屏-组件-自定义组件.jpg" data-full="public/assets/case-bsec/可视化管理-大屏管理-新建大屏-组件-自定义组件.jpg" alt="可视化管理自定义组件页面" />
+            <img data-src="assets/case-optimized/case-bsec/可视化管理-大屏管理-新建大屏-组件-自定义组件.jpg" data-full="assets/case-bsec/可视化管理-大屏管理-新建大屏-组件-自定义组件.jpg" alt="可视化管理自定义组件页面" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:237px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/可视化管理-大屏管理-新建大屏-组件配置-组件数据.jpg" data-full="public/assets/case-bsec/可视化管理-大屏管理-新建大屏-组件配置-组件数据.jpg" alt="可视化管理组件数据配置页面" />
+            <img data-src="assets/case-optimized/case-bsec/可视化管理-大屏管理-新建大屏-组件配置-组件数据.jpg" data-full="assets/case-bsec/可视化管理-大屏管理-新建大屏-组件配置-组件数据.jpg" alt="可视化管理组件数据配置页面" />
           </figure>
           <figure class="case-image-card" style="left:0;top:578px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/组件管理-新建组件.jpg" data-full="public/assets/case-bsec/组件管理-新建组件.jpg" alt="组件管理新建组件页面" />
+            <img data-src="assets/case-optimized/case-bsec/组件管理-新建组件.jpg" data-full="assets/case-bsec/组件管理-新建组件.jpg" alt="组件管理新建组件页面" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:578px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/流量分析-收起.jpg" data-full="public/assets/case-bsec/流量分析-收起.jpg" alt="流量分析收起页面" />
+            <img data-src="assets/case-optimized/case-bsec/流量分析-收起.jpg" data-full="assets/case-bsec/流量分析-收起.jpg" alt="流量分析收起页面" />
           </figure>
           <figure class="case-image-card" style="left:0;top:919px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/平台管理-版本管理-展开.jpg" data-full="public/assets/case-bsec/平台管理-版本管理-展开.jpg" alt="平台管理版本管理展开页面" />
+            <img data-src="assets/case-optimized/case-bsec/平台管理-版本管理-展开.jpg" data-full="assets/case-bsec/平台管理-版本管理-展开.jpg" alt="平台管理版本管理展开页面" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:919px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/运营中心-登录管理-用户管理.jpg" data-full="public/assets/case-bsec/运营中心-登录管理-用户管理.jpg" alt="运营中心登录管理用户管理页面" />
+            <img data-src="assets/case-optimized/case-bsec/运营中心-登录管理-用户管理.jpg" data-full="assets/case-bsec/运营中心-登录管理-用户管理.jpg" alt="运营中心登录管理用户管理页面" />
           </figure>
         </section>
 
@@ -2959,28 +2992,28 @@
             <p>以下为脱敏后的系统页面与组件细节，覆盖可视化配置、平台管理、运营管理、长页面详情和数据模块等典型 B 端场景。</p>
           </div>
           <figure class="case-image-card" style="left:0;top:189px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/18.jpg" data-full="public/assets/case-bsec/18.jpg" alt="页面细节展示十八" />
+            <img data-src="assets/case-optimized/case-bsec/18.jpg" data-full="assets/case-bsec/18.jpg" alt="页面细节展示十八" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:189px;width:559px;height:457px">
-            <img data-src="public/assets/case-optimized/case-bsec/20.jpg" data-full="public/assets/case-bsec/20.jpg" alt="页面细节展示二十" />
+            <img data-src="assets/case-optimized/case-bsec/20.jpg" data-full="assets/case-bsec/20.jpg" alt="页面细节展示二十" />
           </figure>
           <figure class="case-image-card" style="left:0;top:540px;width:559px;height:1041px">
-            <img data-src="public/assets/case-optimized/case-bsec/21.jpg" data-full="public/assets/case-bsec/21.jpg" alt="长页面细节展示二十一" />
+            <img data-src="assets/case-optimized/case-bsec/21.jpg" data-full="assets/case-bsec/21.jpg" alt="长页面细节展示二十一" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:664px;width:559px;height:852px">
-            <img data-src="public/assets/case-optimized/case-bsec/22.jpg" data-full="public/assets/case-bsec/22.jpg" alt="长页面细节展示二十二" />
+            <img data-src="assets/case-optimized/case-bsec/22.jpg" data-full="assets/case-bsec/22.jpg" alt="长页面细节展示二十二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:1599px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/23.jpg" data-full="public/assets/case-bsec/23.jpg" alt="页面细节展示二十三" />
+            <img data-src="assets/case-optimized/case-bsec/23.jpg" data-full="assets/case-bsec/23.jpg" alt="页面细节展示二十三" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:1534px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-bsec/24.jpg" data-full="public/assets/case-bsec/24.jpg" alt="页面细节展示二十四" />
+            <img data-src="assets/case-optimized/case-bsec/24.jpg" data-full="assets/case-bsec/24.jpg" alt="页面细节展示二十四" />
           </figure>
           <figure class="case-image-card" style="left:0;top:1940px;width:559px;height:460px">
-            <img data-src="public/assets/case-optimized/case-bsec/25.jpg" data-full="public/assets/case-bsec/25.jpg" alt="长页面细节展示二十五" />
+            <img data-src="assets/case-optimized/case-bsec/25.jpg" data-full="assets/case-bsec/25.jpg" alt="长页面细节展示二十五" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:1875px;width:559px;height:458px">
-            <img data-src="public/assets/case-optimized/case-bsec/26.jpg" data-full="public/assets/case-bsec/26.jpg" alt="长页面细节展示二十六" />
+            <img data-src="assets/case-optimized/case-bsec/26.jpg" data-full="assets/case-bsec/26.jpg" alt="长页面细节展示二十六" />
           </figure>
         </section>
         <div class="case-spacer" aria-hidden="true"></div>
@@ -3002,7 +3035,7 @@
         <h1 class="case-title">移动端项目集合</h1>
 
         <figure class="case-image-card" style="left:32px;top:322px;width:1136px;height:648px">
-          <img data-src="public/assets/case-optimized/case-mobile/1.jpg" data-full="public/assets/case-mobile/1.jpg" alt="移动端项目集合主视觉展示" />
+          <img data-src="assets/case-optimized/case-mobile/1.jpg" data-full="assets/case-mobile/1.jpg" alt="移动端项目集合主视觉展示" />
         </figure>
 
         <section class="case-section" style="top:1137px;height:770px">
@@ -3018,16 +3051,16 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:106px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/Mockup 4.jpg" data-full="public/assets/case-mobile/Mockup 4.jpg" alt="微网路由器移动端界面一" />
+            <img data-src="assets/case-optimized/case-mobile/Mockup 4.jpg" data-full="assets/case-mobile/Mockup 4.jpg" alt="微网路由器移动端界面一" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:106px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/Mockup 10.jpg" data-full="public/assets/case-mobile/Mockup 10.jpg" alt="微网路由器移动端界面二" />
+            <img data-src="assets/case-optimized/case-mobile/Mockup 10.jpg" data-full="assets/case-mobile/Mockup 10.jpg" alt="微网路由器移动端界面二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:447px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/Mockup 6.jpg" data-full="public/assets/case-mobile/Mockup 6.jpg" alt="微网路由器移动端界面三" />
+            <img data-src="assets/case-optimized/case-mobile/Mockup 6.jpg" data-full="assets/case-mobile/Mockup 6.jpg" alt="微网路由器移动端界面三" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:447px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/Mockup 5.jpg" data-full="public/assets/case-mobile/Mockup 5.jpg" alt="微网路由器移动端界面四" />
+            <img data-src="assets/case-optimized/case-mobile/Mockup 5.jpg" data-full="assets/case-mobile/Mockup 5.jpg" alt="微网路由器移动端界面四" />
           </figure>
         </section>
 
@@ -3040,28 +3073,28 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/3.jpg" data-full="public/assets/case-mobile/3.jpg" alt="all of AI 工具界面一" />
+            <img data-src="assets/case-optimized/case-mobile/3.jpg" data-full="assets/case-mobile/3.jpg" alt="all of AI 工具界面一" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/4.jpg" data-full="public/assets/case-mobile/4.jpg" alt="all of AI 工具界面二" />
+            <img data-src="assets/case-optimized/case-mobile/4.jpg" data-full="assets/case-mobile/4.jpg" alt="all of AI 工具界面二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:399px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/5.jpg" data-full="public/assets/case-mobile/5.jpg" alt="all of AI 工具界面三" />
+            <img data-src="assets/case-optimized/case-mobile/5.jpg" data-full="assets/case-mobile/5.jpg" alt="all of AI 工具界面三" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:399px;width:559px;height:574px">
-            <img data-src="public/assets/case-optimized/case-mobile/6.jpg" data-full="public/assets/case-mobile/6.jpg" alt="all of AI 工具长页面一" />
+            <img data-src="assets/case-optimized/case-mobile/6.jpg" data-full="assets/case-mobile/6.jpg" alt="all of AI 工具长页面一" />
           </figure>
           <figure class="case-image-card" style="left:0;top:740px;width:559px;height:511px">
-            <img data-src="public/assets/case-optimized/case-mobile/7.jpg" data-full="public/assets/case-mobile/7.jpg" alt="all of AI 工具长页面二" />
+            <img data-src="assets/case-optimized/case-mobile/7.jpg" data-full="assets/case-mobile/7.jpg" alt="all of AI 工具长页面二" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:991px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/8.jpg" data-full="public/assets/case-mobile/8.jpg" alt="all of AI 工具界面四" />
+            <img data-src="assets/case-optimized/case-mobile/8.jpg" data-full="assets/case-mobile/8.jpg" alt="all of AI 工具界面四" />
           </figure>
           <figure class="case-image-card" style="left:0;top:1269px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/9.jpg" data-full="public/assets/case-mobile/9.jpg" alt="all of AI 工具界面五" />
+            <img data-src="assets/case-optimized/case-mobile/9.jpg" data-full="assets/case-mobile/9.jpg" alt="all of AI 工具界面五" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:1332px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/10.jpg" data-full="public/assets/case-mobile/10.jpg" alt="all of AI 工具界面六" />
+            <img data-src="assets/case-optimized/case-mobile/10.jpg" data-full="assets/case-mobile/10.jpg" alt="all of AI 工具界面六" />
           </figure>
         </section>
 
@@ -3082,22 +3115,22 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:212px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/12.jpg" data-full="public/assets/case-mobile/12.jpg" alt="创运动 app 界面一" />
+            <img data-src="assets/case-optimized/case-mobile/12.jpg" data-full="assets/case-mobile/12.jpg" alt="创运动 app 界面一" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:212px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/13.jpg" data-full="public/assets/case-mobile/13.jpg" alt="创运动 app 界面二" />
+            <img data-src="assets/case-optimized/case-mobile/13.jpg" data-full="assets/case-mobile/13.jpg" alt="创运动 app 界面二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:553px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/14.jpg" data-full="public/assets/case-mobile/14.jpg" alt="创运动 app 界面三" />
+            <img data-src="assets/case-optimized/case-mobile/14.jpg" data-full="assets/case-mobile/14.jpg" alt="创运动 app 界面三" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:553px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-mobile/16.jpg" data-full="public/assets/case-mobile/16.jpg" alt="创运动 app 界面四" />
+            <img data-src="assets/case-optimized/case-mobile/16.jpg" data-full="assets/case-mobile/16.jpg" alt="创运动 app 界面四" />
           </figure>
           <figure class="case-image-card" style="left:0;top:894px;width:559px;height:610px">
-            <img data-src="public/assets/case-optimized/case-mobile/15.jpg" data-full="public/assets/case-mobile/15.jpg" alt="创运动 app 长页面一" />
+            <img data-src="assets/case-optimized/case-mobile/15.jpg" data-full="assets/case-mobile/15.jpg" alt="创运动 app 长页面一" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:894px;width:559px;height:610px">
-            <img data-src="public/assets/case-optimized/case-mobile/17.jpg" data-full="public/assets/case-mobile/17.jpg" alt="创运动 app 长页面二" />
+            <img data-src="assets/case-optimized/case-mobile/17.jpg" data-full="assets/case-mobile/17.jpg" alt="创运动 app 长页面二" />
           </figure>
         </section>
         <div class="case-spacer" style="height:5534px" aria-hidden="true"></div>
@@ -3126,10 +3159,10 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/画板.jpg" data-full="public/assets/case-screen/画板.jpg" alt="全流量融合分析系统大屏展示" />
+            <img data-src="assets/case-optimized/case-screen/画板.jpg" data-full="assets/case-screen/画板.jpg" alt="全流量融合分析系统大屏展示" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/大屏改版-11-29.jpg" data-full="public/assets/case-screen/大屏改版-11-29.jpg" alt="eDARP 网络安全综合运营平台大屏展示" />
+            <img data-src="assets/case-optimized/case-screen/大屏改版-11-29.jpg" data-full="assets/case-screen/大屏改版-11-29.jpg" alt="eDARP 网络安全综合运营平台大屏展示" />
           </figure>
         </section>
 
@@ -3142,46 +3175,46 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/27.jpg" data-full="public/assets/case-screen/27.jpg" alt="智慧园区数字孪生系统大屏一" />
+            <img data-src="assets/case-optimized/case-screen/27.jpg" data-full="assets/case-screen/27.jpg" alt="智慧园区数字孪生系统大屏一" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/28.jpg" data-full="public/assets/case-screen/28.jpg" alt="智慧园区数字孪生系统大屏二" />
+            <img data-src="assets/case-optimized/case-screen/28.jpg" data-full="assets/case-screen/28.jpg" alt="智慧园区数字孪生系统大屏二" />
           </figure>
           <figure class="case-image-card" style="left:1px;top:399px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/29.jpg" data-full="public/assets/case-screen/29.jpg" alt="智慧园区数字孪生系统大屏三" />
+            <img data-src="assets/case-optimized/case-screen/29.jpg" data-full="assets/case-screen/29.jpg" alt="智慧园区数字孪生系统大屏三" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:399px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/30.jpg" data-full="public/assets/case-screen/30.jpg" alt="智慧园区数字孪生系统大屏四" />
+            <img data-src="assets/case-optimized/case-screen/30.jpg" data-full="assets/case-screen/30.jpg" alt="智慧园区数字孪生系统大屏四" />
           </figure>
           <figure class="case-image-card" style="left:0;top:740px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/31.jpg" data-full="public/assets/case-screen/31.jpg" alt="智慧园区数字孪生系统大屏五" />
+            <img data-src="assets/case-optimized/case-screen/31.jpg" data-full="assets/case-screen/31.jpg" alt="智慧园区数字孪生系统大屏五" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:740px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/32.jpg" data-full="public/assets/case-screen/32.jpg" alt="智慧园区数字孪生系统大屏六" />
+            <img data-src="assets/case-optimized/case-screen/32.jpg" data-full="assets/case-screen/32.jpg" alt="智慧园区数字孪生系统大屏六" />
           </figure>
           <figure class="case-image-card" style="left:1px;top:1081px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/33.jpg" data-full="public/assets/case-screen/33.jpg" alt="智慧园区数字孪生系统大屏七" />
+            <img data-src="assets/case-optimized/case-screen/33.jpg" data-full="assets/case-screen/33.jpg" alt="智慧园区数字孪生系统大屏七" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:1081px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/34.jpg" data-full="public/assets/case-screen/34.jpg" alt="智慧园区数字孪生系统大屏八" />
+            <img data-src="assets/case-optimized/case-screen/34.jpg" data-full="assets/case-screen/34.jpg" alt="智慧园区数字孪生系统大屏八" />
           </figure>
           <figure class="case-image-card" style="left:0;top:1422px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/35.jpg" data-full="public/assets/case-screen/35.jpg" alt="智慧园区数字孪生系统大屏九" />
+            <img data-src="assets/case-optimized/case-screen/35.jpg" data-full="assets/case-screen/35.jpg" alt="智慧园区数字孪生系统大屏九" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:1422px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/36.jpg" data-full="public/assets/case-screen/36.jpg" alt="智慧园区数字孪生系统大屏十" />
+            <img data-src="assets/case-optimized/case-screen/36.jpg" data-full="assets/case-screen/36.jpg" alt="智慧园区数字孪生系统大屏十" />
           </figure>
           <figure class="case-image-card" style="left:1px;top:1763px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/37.jpg" data-full="public/assets/case-screen/37.jpg" alt="智慧园区数字孪生系统大屏十一" />
+            <img data-src="assets/case-optimized/case-screen/37.jpg" data-full="assets/case-screen/37.jpg" alt="智慧园区数字孪生系统大屏十一" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:1763px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/38.jpg" data-full="public/assets/case-screen/38.jpg" alt="智慧园区数字孪生系统大屏十二" />
+            <img data-src="assets/case-optimized/case-screen/38.jpg" data-full="assets/case-screen/38.jpg" alt="智慧园区数字孪生系统大屏十二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:2104px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/39.jpg" data-full="public/assets/case-screen/39.jpg" alt="智慧园区数字孪生系统大屏十三" />
+            <img data-src="assets/case-optimized/case-screen/39.jpg" data-full="assets/case-screen/39.jpg" alt="智慧园区数字孪生系统大屏十三" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:2104px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-screen/41.jpg" data-full="public/assets/case-screen/41.jpg" alt="智慧园区数字孪生系统大屏十四" />
+            <img data-src="assets/case-optimized/case-screen/41.jpg" data-full="assets/case-screen/41.jpg" alt="智慧园区数字孪生系统大屏十四" />
           </figure>
         </section>
         <div class="case-spacer" style="height:3488px" aria-hidden="true"></div>
@@ -3209,37 +3242,37 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/编组 5.jpg" data-full="public/assets/case-visual/编组 5.png" alt="3D 作品展示一" />
+            <img data-src="assets/case-optimized/case-visual/编组 5.jpg" data-full="assets/case-visual/编组 5.png" alt="3D 作品展示一" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/编组 6.jpg" data-full="public/assets/case-visual/编组 6.jpg" alt="3D 作品展示二" />
+            <img data-src="assets/case-optimized/case-visual/编组 6.jpg" data-full="assets/case-visual/编组 6.jpg" alt="3D 作品展示二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:399px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/编组 7.jpg" data-full="public/assets/case-visual/编组 7.jpg" alt="3D 作品展示三" />
+            <img data-src="assets/case-optimized/case-visual/编组 7.jpg" data-full="assets/case-visual/编组 7.jpg" alt="3D 作品展示三" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:399px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/untitled.30.jpg" data-full="public/assets/case-visual/untitled.30.jpg" alt="3D 作品展示四" />
+            <img data-src="assets/case-optimized/case-visual/untitled.30.jpg" data-full="assets/case-visual/untitled.30.jpg" alt="3D 作品展示四" />
           </figure>
           <figure class="case-image-card" style="left:0;top:740px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/sony.31.jpg" data-full="public/assets/case-visual/sony.31.jpg" alt="3D 作品展示五" />
+            <img data-src="assets/case-optimized/case-visual/sony.31.jpg" data-full="assets/case-visual/sony.31.jpg" alt="3D 作品展示五" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:740px;width:559px;height:407px">
-            <img data-src="public/assets/case-optimized/case-visual/佩奇1.6.jpg" data-full="public/assets/case-visual/佩奇1.6.jpg" alt="3D 作品展示六" />
+            <img data-src="assets/case-optimized/case-visual/佩奇1.6.jpg" data-full="assets/case-visual/佩奇1.6.jpg" alt="3D 作品展示六" />
           </figure>
           <figure class="case-image-card" style="left:0;top:1081px;width:559px;height:502px">
-            <img data-src="public/assets/case-optimized/case-visual/startup.32.jpg" data-full="public/assets/case-visual/startup.32.jpg" alt="3D 作品展示七" />
+            <img data-src="assets/case-optimized/case-visual/startup.32.jpg" data-full="assets/case-visual/startup.32.jpg" alt="3D 作品展示七" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:1165px;width:559px;height:418px">
-            <img data-src="public/assets/case-optimized/case-visual/T21路由器.35.jpg" data-full="public/assets/case-visual/T21路由器.35.jpg" alt="3D 作品展示八" />
+            <img data-src="assets/case-optimized/case-visual/T21路由器.35.jpg" data-full="assets/case-visual/T21路由器.35.jpg" alt="3D 作品展示八" />
           </figure>
           <figure class="case-image-card" style="left:0;top:1601px;width:559px;height:558px">
-            <img data-src="public/assets/case-optimized/case-visual/电池喷雾.jpg" data-full="public/assets/case-visual/电池喷雾.jpg" alt="3D 作品展示九" />
+            <img data-src="assets/case-optimized/case-visual/电池喷雾.jpg" data-full="assets/case-visual/电池喷雾.jpg" alt="3D 作品展示九" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:1601px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/产线1111最终版.jpg" data-full="public/assets/case-visual/产线1111最终版.jpg" alt="3D 作品展示十" />
+            <img data-src="assets/case-optimized/case-visual/产线1111最终版.jpg" data-full="assets/case-visual/产线1111最终版.jpg" alt="3D 作品展示十" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:1942px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/123.jpg" data-full="public/assets/case-visual/123.jpg" alt="3D 作品展示十一" />
+            <img data-src="assets/case-optimized/case-visual/123.jpg" data-full="assets/case-visual/123.jpg" alt="3D 作品展示十一" />
           </figure>
         </section>
 
@@ -3250,25 +3283,96 @@
           </div>
 
           <figure class="case-image-card" style="left:0;top:58px;width:559px;height:186px">
-            <img data-src="public/assets/case-optimized/case-visual/轮播图1.jpg" data-full="public/assets/case-visual/轮播图1.jpg" alt="平面作品展示一" />
+            <img data-src="assets/case-optimized/case-visual/轮播图1.jpg" data-full="assets/case-visual/轮播图1.jpg" alt="平面作品展示一" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:58px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/Group 32.jpg" data-full="public/assets/case-visual/Group 32.jpg" alt="平面作品展示二" />
+            <img data-src="assets/case-optimized/case-visual/Group 32.jpg" data-full="assets/case-visual/Group 32.jpg" alt="平面作品展示二" />
           </figure>
           <figure class="case-image-card" style="left:0;top:262px;width:559px;height:380px">
-            <img data-src="public/assets/case-optimized/case-visual/063.jpg" data-full="public/assets/case-visual/063.jpg" alt="平面作品展示三" />
+            <img data-src="assets/case-optimized/case-visual/063.jpg" data-full="assets/case-visual/063.jpg" alt="平面作品展示三" />
           </figure>
           <figure class="case-image-card" style="left:578px;top:399px;width:559px;height:434px">
-            <img data-src="public/assets/case-optimized/case-visual/名片1的副本.jpg" data-full="public/assets/case-visual/名片1的副本.jpg" alt="平面作品展示四" />
+            <img data-src="assets/case-optimized/case-visual/名片1的副本.jpg" data-full="assets/case-visual/名片1的副本.jpg" alt="平面作品展示四" />
           </figure>
           <figure class="case-image-card" style="left:0;top:660px;width:559px;height:380px">
-            <img data-src="public/assets/case-optimized/case-visual/Business Card Mock Up Vol 08.jpg" data-full="public/assets/case-visual/Business Card Mock Up Vol 08.jpg" alt="平面作品展示五" />
+            <img data-src="assets/case-optimized/case-visual/Business Card Mock Up Vol 08.jpg" data-full="assets/case-visual/Business Card Mock Up Vol 08.jpg" alt="平面作品展示五" />
           </figure>
           <figure class="case-image-card" style="left:577px;top:850px;width:559px;height:323px">
-            <img data-src="public/assets/case-optimized/case-visual/Clipped.jpg" data-full="public/assets/case-visual/Clipped.jpg" alt="平面作品展示六" />
+            <img data-src="assets/case-optimized/case-visual/Clipped.jpg" data-full="assets/case-visual/Clipped.jpg" alt="平面作品展示六" />
           </figure>
         </section>
         <div class="case-spacer" style="height:4088px" aria-hidden="true"></div>
+      </article>
+    </div>
+
+    <div id="aiCaseDetail" class="case-detail" aria-hidden="true">
+      <article class="case-canvas" aria-label="AI概念设计详情">
+        <header class="case-topbar">
+          <button id="aiCaseClose" class="case-close" type="button" aria-label="返回作品列表"></button>
+          <h2 class="case-top-title">AI概念设计</h2>
+          <a href="mailto:lxy152827@sina.com" class="case-contact">
+            <svg class="inline-icon" aria-hidden="true"><use href="#icon-mail"></use></svg>
+            <span>联系我</span>
+          </a>
+        </header>
+
+        <p class="case-status">AI Concept design</p>
+        <h1 class="case-title">AI概念设计</h1>
+
+        <section class="case-section" style="top:368px;height:4530px">
+          <div class="case-section-head">
+            <div class="case-number"><span>/</span><b>01</b></div>
+            <h3 class="case-section-title">ComfyUI</h3>
+            <p class="case-note">注:作品全是用工作流生成出来的,有接API,总共花费不到 1元人民币</p>
+          </div>
+
+          <figure class="case-image-card" style="left:0;top:58px;width:559px;height:512px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00002_akgfh_1781525511.jpeg" data-full="assets/case-ai-concept/ComfyUI_00002_akgfh_1781525511.jpeg" alt="AI 概念设计作品一" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:58px;width:559px;height:512px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00003_mmgum_1781525812.jpeg" data-full="assets/case-ai-concept/ComfyUI_00003_mmgum_1781525812.jpeg" alt="AI 概念设计作品二" />
+          </figure>
+          <figure class="case-image-card" style="left:0;top:588px;width:559px;height:611px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00004_njugr_1781526230.jpeg" data-full="assets/case-ai-concept/ComfyUI_00004_njugr_1781526230.jpeg" alt="AI 概念设计作品三" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:588px;width:559px;height:693px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00005_xgycb_1781526412.jpeg" data-full="assets/case-ai-concept/ComfyUI_00005_xgycb_1781526412.jpeg" alt="AI 概念设计作品四" />
+          </figure>
+          <figure class="case-image-card" style="left:0;top:1217px;width:559px;height:738px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00007_idqjx_1781526780.jpeg" data-full="assets/case-ai-concept/ComfyUI_00007_idqjx_1781526780.jpeg" alt="AI 概念设计作品五" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:1305px;width:559px;height:510px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00008_xylkc_1781526970.jpeg" data-full="assets/case-ai-concept/ComfyUI_00008_xylkc_1781526970.jpeg" alt="AI 概念设计作品六" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:1833px;width:559px;height:323px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00004_olboh_1781534860.jpeg" data-full="assets/case-ai-concept/ComfyUI_00004_olboh_1781534860.jpeg" alt="AI 概念设计作品七" />
+          </figure>
+          <figure class="case-image-card" style="left:0;top:1973px;width:559px;height:558px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00010_knpis_1781527204.jpeg" data-full="assets/case-ai-concept/ComfyUI_00010_knpis_1781527204.jpeg" alt="AI 概念设计作品八" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:2174px;width:559px;height:611px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00005_pahcf_1781535056.jpeg" data-full="assets/case-ai-concept/ComfyUI_00005_pahcf_1781535056.jpeg" alt="AI 概念设计作品九" />
+          </figure>
+          <figure class="case-image-card" style="left:0;top:2549px;width:559px;height:828px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00007_iuvzl_1781535285.jpeg" data-full="assets/case-ai-concept/ComfyUI_00007_iuvzl_1781535285.jpeg" alt="AI 概念设计作品十" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:2803px;width:559px;height:323px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00008_rqzky_1781535392.jpeg" data-full="assets/case-ai-concept/ComfyUI_00008_rqzky_1781535392.jpeg" alt="AI 概念设计作品十一" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:3144px;width:559px;height:434px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00012_uufli_1781535986.jpeg" data-full="assets/case-ai-concept/ComfyUI_00012_uufli_1781535986.jpeg" alt="AI 概念设计作品十二" />
+          </figure>
+          <figure class="case-image-card" style="left:0;top:3395px;width:559px;height:516px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00011_gyksg_1781535804.jpeg" data-full="assets/case-ai-concept/ComfyUI_00011_gyksg_1781535804.jpeg" alt="AI 概念设计作品十三" />
+          </figure>
+          <figure class="case-image-card" style="left:577px;top:3596px;width:559px;height:516px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00013_ytoag_1781536333.jpeg" data-full="assets/case-ai-concept/ComfyUI_00013_ytoag_1781536333.jpeg" alt="AI 概念设计作品十四" />
+          </figure>
+          <figure class="case-image-card" style="left:0;top:3929px;width:559px;height:601px">
+            <img data-src="assets/case-ai-concept/ComfyUI_00015_eumnq_1781536617.jpeg" data-full="assets/case-ai-concept/ComfyUI_00015_eumnq_1781536617.jpeg" alt="AI 概念设计作品十五" />
+          </figure>
+        </section>
+        <div class="case-spacer" style="height:4990px" aria-hidden="true"></div>
       </article>
     </div>
 
@@ -3278,7 +3382,7 @@
     </div>
 
     <div id="wechatPopover" class="fixed z-[60] hidden rounded-figma border border-white/15 bg-black/90 p-4 text-center shadow-2xl backdrop-blur-xl">
-      <img src="public/assets/wechat-qr-lxy.jpg" alt="微信二维码" class="block h-auto w-[220px] max-w-[70vw] rounded-[6px] bg-white" loading="lazy" decoding="async" />
+      <img src="assets/wechat-qr-lxy.jpg" alt="微信二维码" class="block h-auto w-[220px] max-w-[70vw] rounded-[6px] bg-white" loading="lazy" decoding="async" />
     </div>
 
     <script>
@@ -3290,13 +3394,21 @@
         document.head.appendChild(script);
       }
 
-      if (location.protocol === 'file:') {
+    const portfolioParams = new URLSearchParams(location.search);
+    const portfolioBundleBase = 'assets/';
+    window.__usePortfolioFileBundle = !portfolioParams.has('__devSource');
+
+      if (window.__usePortfolioFileBundle) {
         const bundledCss = document.createElement('link');
         bundledCss.rel = 'stylesheet';
-        bundledCss.href = new URL('dist/assets/index.css', location.href).href;
+        bundledCss.href = new URL(`${portfolioBundleBase}index.css`, location.href).href;
         document.head.appendChild(bundledCss);
+        const fileEnhancementCss = document.createElement('link');
+        fileEnhancementCss.rel = 'stylesheet';
+        fileEnhancementCss.href = new URL(`${portfolioBundleBase}file-enhancements.css`, location.href).href;
+        document.head.appendChild(fileEnhancementCss);
       } else {
-        loadPortfolioScript('/src/liquid-ether-entry.jsx');
+        loadPortfolioScript('./src/liquid-ether-entry.jsx');
       }
     </script>
     <script>
@@ -3315,10 +3427,14 @@
         const viewportWidth = getViewportWidth();
         const scale = Math.min(1, viewportWidth / designWidth);
         const caseScale = Math.min(1, Math.max(0.1, (viewportWidth - 24) / 1200));
+        const frameViewportWidth = viewportWidth / scale;
+        const frameFullbleedLeft = (designWidth - frameViewportWidth) / 2;
         currentFrameScale = scale;
         frame.style.transform = `scale(${scale})`;
         viewport.style.height = `${designHeight * scale}px`;
         document.documentElement.style.setProperty('--frame-scale', scale.toFixed(4));
+        document.documentElement.style.setProperty('--frame-viewport-width', `${frameViewportWidth}px`);
+        document.documentElement.style.setProperty('--frame-fullbleed-left', `${frameFullbleedLeft}px`);
         document.documentElement.style.setProperty('--case-scale', caseScale.toFixed(4));
         updateFloatingNav();
       }
@@ -3993,11 +4109,68 @@
       });
     </script>
     <script>
-      if (location.protocol !== 'file:') {
-        loadPortfolioScript('/src/react-bits-entry.jsx');
-        loadPortfolioScript('/src/portfolio-motion-entry.jsx');
+      (() => {
+        const aiCaseDetail = document.getElementById('aiCaseDetail');
+        const aiCaseClose = document.getElementById('aiCaseClose');
+        const aiCaseCanvas = aiCaseDetail?.querySelector('.case-canvas');
+
+        if (!aiCaseDetail || !aiCaseClose || !aiCaseCanvas) return;
+
+        function hydrateAiCaseImages() {
+          aiCaseDetail.querySelectorAll('.case-image-card img[data-src]').forEach((image) => {
+            if (image.getAttribute('src')) return;
+            image.loading = 'lazy';
+            image.decoding = 'async';
+            image.src = image.dataset.src;
+          });
+        }
+
+        function openAiCaseDetail() {
+          hydrateAiCaseImages();
+          aiCaseDetail.classList.add('is-open');
+          aiCaseDetail.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('case-open');
+          aiCaseCanvas.scrollTop = 0;
+        }
+
+        function closeAiCaseDetail() {
+          aiCaseDetail.classList.remove('is-open');
+          aiCaseDetail.setAttribute('aria-hidden', 'true');
+          document.body.classList.remove('case-open');
+        }
+
+        document.addEventListener(
+          'click',
+          (event) => {
+            const trigger = event.target.closest('[data-project^="AI概念设计|"]');
+            if (!trigger) return;
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            openAiCaseDetail();
+          },
+          true
+        );
+
+        aiCaseClose.addEventListener('click', closeAiCaseDetail);
+        aiCaseDetail.addEventListener('click', (event) => {
+          if (event.target === aiCaseDetail) closeAiCaseDetail();
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape') return;
+          const imageLightbox = document.getElementById('imageLightbox');
+          if (imageLightbox?.classList.contains('is-open')) return;
+          closeAiCaseDetail();
+        });
+      })();
+    </script>
+    <script>
+      if (!window.__usePortfolioFileBundle) {
+        loadPortfolioScript('./src/react-bits-entry.jsx');
+        loadPortfolioScript('./src/portfolio-motion-entry.jsx');
       } else {
-        loadPortfolioScript(new URL('dist/assets/index.js', location.href).href, true);
+        loadPortfolioScript(new URL(`${portfolioBundleBase}file-enhancements.js`, location.href).href, false);
       }
     </script>
   </body>

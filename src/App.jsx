@@ -9,7 +9,7 @@ import { Button, ConfigProvider, Drawer, Image, Popover, Tag } from 'antd';
 import { BarChart3, Blocks, ClipboardCheck, ShieldCheck, Sparkles, Workflow } from 'lucide-react';
 import GlassIcons from './GlassIcons.jsx';
 
-const page = (number) => `/assets/portfolio-pages/page-${String(number).padStart(2, '0')}.png`;
+const page = (number) => `assets/portfolio-pages/page-${String(number).padStart(2, '0')}.png`;
 const range = (start, end) => Array.from({ length: end - start + 1 }, (_, index) => page(start + index));
 
 const navItems = [
@@ -126,7 +126,7 @@ const projects = [
     subtitle: '政企安全 / B端平台 / 产品助理',
     type: 'Cyber Security',
     year: '2025',
-    cover: '/assets/project-data-dashboard.png',
+    cover: 'assets/project-data-dashboard.png',
     pages: [page(33), page(34), page(35)],
     summary:
       '面向政企的一体化安全运营管理平台，用于资产管理、漏洞监测、安全告警处置、态势感知、合规自查与工单闭环。',
@@ -145,7 +145,7 @@ const projects = [
     subtitle: '网络安全硬件 / 数据分析 / B端系统',
     type: 'Data Platform',
     year: '2024',
-    cover: '/assets/project-digital-twin-energy.png',
+    cover: 'assets/project-digital-twin-energy.png',
     pages: [page(36), page(37), page(38), page(39), page(40), page(41)],
     summary:
       '软硬件一体化网安硬件产品，适配通用服务器与信创服务器，覆盖安全监测、攻防对抗、业务审计等安全业务。',
@@ -164,7 +164,7 @@ const projects = [
     subtitle: 'AI工具 / 移动端合集',
     type: 'Mobile UI',
     year: '2024',
-    cover: '/assets/project-ai-tools.png',
+    cover: 'assets/project-ai-tools.png',
     pages: range(1, 11),
     summary: '移动端工具型产品合集，包含 AI 绘画、高清修复、对话流程与设计规范。',
     detail:
@@ -178,7 +178,7 @@ const projects = [
     subtitle: '运动社区 / 移动端体验',
     type: 'Sports App',
     year: '2024',
-    cover: '/assets/project-sports-app.png',
+    cover: 'assets/project-sports-app.png',
     pages: range(12, 17),
     summary: '运动社区应用，覆盖颜色体系、布局结构、产品功能与移动端页面设计。',
     detail:
@@ -192,7 +192,7 @@ const projects = [
     subtitle: 'PDM / 文件管理 / WMS / 路由器后台',
     type: 'Web Interface',
     year: '2023',
-    cover: '/assets/project-enterprise-web.png',
+    cover: 'assets/project-enterprise-web.png',
     pages: range(18, 26),
     summary: '面向企业管理场景的 Web 后台界面，包含设计流程、快速登录、表格和弹窗规范。',
     detail:
@@ -209,7 +209,7 @@ const projects = [
     subtitle: '数据可视化 / 数字孪生',
     type: 'Digital Twin',
     year: '2023',
-    cover: '/assets/project-digital-twin-home.png',
+    cover: 'assets/project-digital-twin-home.png',
     pages: range(27, 41),
     summary: '智慧园区可视化大屏与数字孪生系统，强调高密度数据、能源效率与综合态势呈现。',
     detail:
@@ -305,8 +305,8 @@ function Hero() {
 
   return (
     <section className="hero" id="home">
-      <video ref={videoRef} className="hero-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/hero-poster.jpg">
-        <source src="/assets/hero-motion.mp4" type="video/mp4" />
+      <video ref={videoRef} className="hero-video" autoPlay muted loop playsInline preload="metadata" poster="assets/hero-poster.jpg">
+        <source src="assets/hero-motion.mp4" type="video/mp4" />
       </video>
       <div className="hero-overlay" aria-hidden="true" />
 
@@ -419,7 +419,7 @@ function Resume() {
           <section className="resume-profile-card resume-panel">
             <div className="resume-profile-inner">
               <div className="resume-avatar">
-                <img src="/assets/profile-avatar.png" alt="龙星宇" />
+                <img src="assets/profile-avatar.png" alt="龙星宇" />
               </div>
             </div>
           </section>
@@ -498,35 +498,35 @@ function Projects({ onOpen }) {
       title: 'B端·网安系统/SAAS/组件库',
       type: 'B-end · Cybersecurity system',
       subtitle: '政企安全 / B端平台 / 产品助理',
-      cover: '/assets/project-enterprise-web.png',
+      cover: 'assets/project-enterprise-web.png',
     },
     {
       project: projects[2],
       title: '移动端项目集合',
       type: 'Mobile terminal',
       subtitle: 'AI工具 / 移动端合集',
-      cover: '/assets/project-ai-tools.png',
+      cover: 'assets/project-ai-tools.png',
     },
     {
       project: projects[5],
       title: '可视化大屏系统',
       type: 'Visual large screen system',
       subtitle: '数据分析 / B端系统',
-      cover: '/assets/project-data-dashboard.png',
+      cover: 'assets/project-data-dashboard.png',
     },
     {
       project: projects[6] || projects[3],
       title: '创意视觉设计',
       type: 'Visual design',
       subtitle: '平面设计',
-      cover: '/assets/project-graphic-work.png',
+      cover: 'assets/project-graphic-work.png',
     },
     {
       project: projects[2],
       title: 'AI概念设计',
       type: 'AI Concept design',
       subtitle: 'ComfyUI',
-      cover: '/assets/project-ai-tools.png',
+      cover: 'assets/project-ai-tools.png',
     },
   ];
 
@@ -652,7 +652,7 @@ function Strengths() {
 function WechatContent() {
   return (
     <div className="wechat-popover">
-      <img src="/assets/wechat-qr-lxy.jpg" alt="微信二维码" />
+      <img src="assets/wechat-qr-lxy.jpg" alt="微信二维码" />
     </div>
   );
 }
