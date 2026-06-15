@@ -272,6 +272,7 @@ video {
 .hero-video {
   z-index: -3;
   object-fit: cover;
+  background: #000;
   opacity: 1;
   filter: grayscale(0.04) saturate(1) brightness(0.96) contrast(1.04);
 }

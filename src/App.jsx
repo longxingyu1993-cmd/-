@@ -305,7 +305,7 @@ function Hero() {
 
   return (
     <section className="hero" id="home">
-      <video ref={videoRef} className="hero-video" autoPlay muted loop playsInline preload="metadata" poster="assets/hero-poster.jpg">
+      <video ref={videoRef} className="hero-video" autoPlay muted loop playsInline preload="auto">
         <source src="assets/hero-motion.mp4" type="video/mp4" />
       </video>
       <div className="hero-overlay" aria-hidden="true" />

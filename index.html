@@ -24,7 +24,6 @@
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
       }
     </style>
-    <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high" />
     <style>
       :root {
         --gin: #eef5f2;
@@ -224,8 +223,14 @@
         max-width: none;
         height: 1080px;
         object-fit: cover;
+        background: #000;
         opacity: 1;
         filter: grayscale(0.04) saturate(1) brightness(1.02) contrast(1.04);
+      }
+
+      .mobile-hero,
+      .mobile-hero video {
+        background: #000;
       }
 
       .video-mask {
@@ -1557,6 +1562,7 @@
           width: 100%;
           height: 100%;
           object-fit: cover;
+          background: #000;
           opacity: 0.78;
           filter: brightness(1.08) contrast(1.06) saturate(1.04);
         }
@@ -2422,7 +2428,7 @@
             <path d="M12.5357 1.39282H0.464286C0.207478 1.39282 0 1.6003 0 1.85711V11.1428C0 11.3996 0.207478 11.6071 0.464286 11.6071H12.5357C12.7925 11.6071 13 11.3996 13 11.1428V1.85711C13 1.6003 12.7925 1.39282 12.5357 1.39282ZM11.9554 3.00041V10.5625H1.04464V3.00041L0.644196 2.68847L1.2144 1.95577L1.83538 2.43892H11.1661L11.7871 1.95577L12.3573 2.68847L11.9554 3.00041ZM11.1661 2.43747L6.5 6.0647L1.83393 2.43747L1.21295 1.95432L0.642746 2.68702L1.04319 2.99896L5.99944 6.85253C6.14198 6.96327 6.31733 7.02338 6.49782 7.02338C6.67832 7.02338 6.85367 6.96327 6.99621 6.85253L11.9554 3.00041L12.3558 2.68847L11.7856 1.95577L11.1661 2.43747Z" fill="currentColor" />
           </symbol>
         </svg>
-        <video class="video-bg" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+        <video class="video-bg" autoplay muted loop playsinline preload="auto">
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
         <div id="liquidEtherBg" class="liquid-ether-bg" aria-hidden="true"></div>
@@ -2662,7 +2668,7 @@
 
     <main id="mobileLayout" class="mobile-shell" aria-label="移动端作品集">
       <section id="m-home" class="mobile-hero">
-        <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+        <video autoplay muted loop playsinline preload="auto">
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
         <div class="mobile-container">
