@@ -288,24 +288,49 @@ function App() {
 
 function Hero() {
   const videoRef = useRef(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return undefined;
 
+    const markReady = () => setIsVideoReady(true);
     const play = () => {
       const promise = video.play();
       if (promise && typeof promise.catch === 'function') promise.catch(() => {});
     };
 
     play();
+    if (video.readyState >= 2) markReady();
+    video.addEventListener('loadeddata', markReady, { once: true });
+    video.addEventListener('canplay', markReady, { once: true });
+    video.addEventListener('playing', markReady, { once: true });
     video.addEventListener('canplay', play, { once: true });
-    return () => video.removeEventListener('canplay', play);
+    return () => {
+      video.removeEventListener('loadeddata', markReady);
+      video.removeEventListener('canplay', markReady);
+      video.removeEventListener('playing', markReady);
+      video.removeEventListener('canplay', play);
+    };
   }, []);
 
   return (
     <section className="hero" id="home">
-      <video ref={videoRef} className="hero-video" autoPlay muted loop playsInline preload="auto">
+      <img className="hero-fallback-image" src="assets/hero-poster.jpg" alt="" aria-hidden="true" decoding="async" />
+      <video
+        ref={videoRef}
+        className={`hero-video${isVideoReady ? ' is-video-ready' : ''}`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="assets/hero-poster.jpg"
+        onLoadedData={() => setIsVideoReady(true)}
+        onCanPlay={() => setIsVideoReady(true)}
+        onPlaying={() => setIsVideoReady(true)}
+        onError={() => setIsVideoReady(false)}
+      >
         <source src="assets/hero-motion.mp4" type="video/mp4" />
       </video>
       <div className="hero-overlay" aria-hidden="true" />

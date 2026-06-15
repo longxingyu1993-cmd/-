@@ -24,6 +24,7 @@
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
       }
     </style>
+    <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high" />
     <style>
       :root {
         --gin: #eef5f2;
@@ -224,13 +225,36 @@
         height: 1080px;
         object-fit: cover;
         background: #000;
-        opacity: 1;
+        opacity: 0;
         filter: grayscale(0.04) saturate(1) brightness(1.02) contrast(1.04);
+        transition: opacity 480ms ease;
       }
 
       .mobile-hero,
       .mobile-hero video {
         background: #000;
+      }
+
+      .video-bg.is-video-ready {
+        opacity: 1;
+      }
+
+      .video-bg.has-video-error {
+        opacity: 0;
+      }
+
+      .video-fallback {
+        position: absolute;
+        inset: 0 0 auto;
+        right: auto;
+        left: var(--frame-fullbleed-left);
+        width: var(--frame-viewport-width);
+        max-width: none;
+        height: 1080px;
+        object-fit: cover;
+        background: #000;
+        filter: grayscale(0.04) saturate(1) brightness(1.02) contrast(1.04);
+        pointer-events: none;
       }
 
       .video-mask {
@@ -1563,8 +1587,25 @@
           height: 100%;
           object-fit: cover;
           background: #000;
+          opacity: 0;
+          filter: brightness(1.08) contrast(1.06) saturate(1.04);
+          transition: opacity 480ms ease;
+        }
+
+        .mobile-hero video.is-video-ready {
+          opacity: 0.78;
+        }
+
+        .mobile-video-fallback {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          background: #000;
           opacity: 0.78;
           filter: brightness(1.08) contrast(1.06) saturate(1.04);
+          pointer-events: none;
         }
 
         .mobile-hero::after {
@@ -2428,7 +2469,8 @@
             <path d="M12.5357 1.39282H0.464286C0.207478 1.39282 0 1.6003 0 1.85711V11.1428C0 11.3996 0.207478 11.6071 0.464286 11.6071H12.5357C12.7925 11.6071 13 11.3996 13 11.1428V1.85711C13 1.6003 12.7925 1.39282 12.5357 1.39282ZM11.9554 3.00041V10.5625H1.04464V3.00041L0.644196 2.68847L1.2144 1.95577L1.83538 2.43892H11.1661L11.7871 1.95577L12.3573 2.68847L11.9554 3.00041ZM11.1661 2.43747L6.5 6.0647L1.83393 2.43747L1.21295 1.95432L0.642746 2.68702L1.04319 2.99896L5.99944 6.85253C6.14198 6.96327 6.31733 7.02338 6.49782 7.02338C6.67832 7.02338 6.85367 6.96327 6.99621 6.85253L11.9554 3.00041L12.3558 2.68847L11.7856 1.95577L11.1661 2.43747Z" fill="currentColor" />
           </symbol>
         </svg>
-        <video class="video-bg" autoplay muted loop playsinline preload="auto">
+        <img class="video-fallback" src="assets/hero-poster.jpg" alt="" aria-hidden="true" decoding="async" fetchpriority="high" data-video-fallback="desktop" />
+        <video class="video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/hero-poster.jpg" data-hero-video="desktop">
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
         <div id="liquidEtherBg" class="liquid-ether-bg" aria-hidden="true"></div>
@@ -2668,7 +2710,8 @@
 
     <main id="mobileLayout" class="mobile-shell" aria-label="移动端作品集">
       <section id="m-home" class="mobile-hero">
-        <video autoplay muted loop playsinline preload="auto">
+        <img class="mobile-video-fallback" src="assets/hero-poster.jpg" alt="" aria-hidden="true" decoding="async" fetchpriority="high" data-video-fallback="mobile" />
+        <video autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/hero-poster.jpg" data-hero-video="mobile">
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
         <div class="mobile-container">
@@ -3390,6 +3433,40 @@
     <div id="wechatPopover" class="fixed z-[60] hidden rounded-figma border border-white/15 bg-black/90 p-4 text-center shadow-2xl backdrop-blur-xl">
       <img src="assets/wechat-qr-lxy.jpg" alt="微信二维码" class="block h-auto w-[220px] max-w-[70vw] rounded-[6px] bg-white" loading="lazy" decoding="async" />
     </div>
+
+    <script>
+      (() => {
+        const markVideoReady = (video) => {
+          video.classList.add('is-video-ready');
+          video.classList.remove('has-video-error');
+        };
+
+        document.querySelectorAll('[data-hero-video]').forEach((video) => {
+          video.muted = true;
+          video.playsInline = true;
+          video.setAttribute('playsinline', '');
+          video.setAttribute('webkit-playsinline', '');
+
+          if (video.readyState >= 2) markVideoReady(video);
+
+          ['loadeddata', 'canplay', 'playing'].forEach((eventName) => {
+            video.addEventListener(eventName, () => markVideoReady(video), { once: true });
+          });
+
+          video.addEventListener('error', () => {
+            video.classList.remove('is-video-ready');
+            video.classList.add('has-video-error');
+          });
+
+          const playPromise = video.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+              video.classList.remove('is-video-ready');
+            });
+          }
+        });
+      })();
+    </script>
 
     <script>
       function loadPortfolioScript(src, isModule = true) {
