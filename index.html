@@ -1194,10 +1194,13 @@
         transform: rotate(-45deg);
       }
 
+      /* [MOBILE-FIX] Scroll lock that preserves position on iOS */
       body.case-open {
+        position: fixed;
+        width: 100%;
         overflow: hidden;
+        touch-action: none;
       }
-
       .case-detail {
         position: fixed;
         inset: 0;
@@ -1224,6 +1227,8 @@
         margin: 0 0 0 auto;
         overflow-x: hidden;
         overflow-y: auto;
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
         transform: translate3d(100%, 0, 0);
         transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
         background:
@@ -4191,60 +4196,73 @@
         });
       }
 
+      /* [MOBILE-FIX] Scroll lock — save/restore position to prevent iOS flash */
+      let _lockedScrollY = 0;
+      function lockBodyScroll() {
+        _lockedScrollY = window.scrollY;
+        document.body.style.top = `-${_lockedScrollY}px`;
+        document.body.classList.add('case-open');
+      }
+      function unlockBodyScroll() {
+        document.body.classList.remove('case-open');
+        document.body.style.top = '';
+        window.scrollTo(0, _lockedScrollY);
+      }
+
       function openCaseDetail() {
         hydrateCaseImages(caseDetail);
         caseDetail.classList.add('is-open');
         caseDetail.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('case-open');
+        lockBodyScroll();
         caseCanvas.scrollTop = 0;
       }
 
       function closeCaseDetail() {
         caseDetail.classList.remove('is-open');
         caseDetail.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('case-open');
+        unlockBodyScroll();
       }
 
       function openMobileCaseDetail() {
         hydrateCaseImages(mobileCaseDetail);
         mobileCaseDetail.classList.add('is-open');
         mobileCaseDetail.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('case-open');
+        lockBodyScroll();
         mobileCaseCanvas.scrollTop = 0;
       }
 
       function closeMobileCaseDetail() {
         mobileCaseDetail.classList.remove('is-open');
         mobileCaseDetail.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('case-open');
+        unlockBodyScroll();
       }
 
       function openScreenCaseDetail() {
         hydrateCaseImages(screenCaseDetail);
         screenCaseDetail.classList.add('is-open');
         screenCaseDetail.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('case-open');
+        lockBodyScroll();
         screenCaseCanvas.scrollTop = 0;
       }
 
       function closeScreenCaseDetail() {
         screenCaseDetail.classList.remove('is-open');
         screenCaseDetail.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('case-open');
+        unlockBodyScroll();
       }
 
       function openVisualCaseDetail() {
         hydrateCaseImages(visualCaseDetail);
         visualCaseDetail.classList.add('is-open');
         visualCaseDetail.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('case-open');
+        lockBodyScroll();
         visualCaseCanvas.scrollTop = 0;
       }
 
       function closeVisualCaseDetail() {
         visualCaseDetail.classList.remove('is-open');
         visualCaseDetail.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('case-open');
+        unlockBodyScroll();
       }
 
       function openImageLightbox(image) {
@@ -4282,28 +4300,44 @@
           modalTitle.textContent = title;
           modalText.textContent = text;
           modal.classList.add('is-open');
+          lockBodyScroll();
         });
       });
-      document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('is-open'));
-      modal.addEventListener('click', (event) => {
-        if (event.target === modal) modal.classList.remove('is-open');
+      /* [MOBILE-FIX] Modal scroll lock */
+      document.getElementById('modalClose').addEventListener('click', () => {
+        modal.classList.remove('is-open');
+        unlockBodyScroll();
       });
+      /* [MOBILE-FIX] Modal backdrop — prevent touch-through from content */
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          modal.classList.remove('is-open');
+          unlockBodyScroll();
+        }
+      });
+      modal.querySelector('div').addEventListener('click', (event) => { event.stopPropagation(); });
       caseClose.addEventListener('click', closeCaseDetail);
+      /* [MOBILE-FIX] Backdrop click — only close if backdrop itself is tapped */
       caseDetail.addEventListener('click', (event) => {
         if (event.target === caseDetail) closeCaseDetail();
       });
+      /* [MOBILE-FIX] Prevent clicks inside canvas from reaching backdrop */
+      caseCanvas.addEventListener('click', (event) => { event.stopPropagation(); });
       mobileCaseClose.addEventListener('click', closeMobileCaseDetail);
       mobileCaseDetail.addEventListener('click', (event) => {
         if (event.target === mobileCaseDetail) closeMobileCaseDetail();
       });
+      mobileCaseCanvas.addEventListener('click', (event) => { event.stopPropagation(); });
       screenCaseClose.addEventListener('click', closeScreenCaseDetail);
       screenCaseDetail.addEventListener('click', (event) => {
         if (event.target === screenCaseDetail) closeScreenCaseDetail();
       });
+      screenCaseCanvas.addEventListener('click', (event) => { event.stopPropagation(); });
       visualCaseClose.addEventListener('click', closeVisualCaseDetail);
       visualCaseDetail.addEventListener('click', (event) => {
         if (event.target === visualCaseDetail) closeVisualCaseDetail();
       });
+      visualCaseCanvas.addEventListener('click', (event) => { event.stopPropagation(); });
       document.querySelectorAll('.case-image-card img').forEach((image) => {
         image.addEventListener('click', (event) => {
           event.stopPropagation();
@@ -4370,14 +4404,14 @@
           hydrateAiCaseImages();
           aiCaseDetail.classList.add('is-open');
           aiCaseDetail.setAttribute('aria-hidden', 'false');
-          document.body.classList.add('case-open');
+          lockBodyScroll();
           aiCaseCanvas.scrollTop = 0;
         }
 
         function closeAiCaseDetail() {
           aiCaseDetail.classList.remove('is-open');
           aiCaseDetail.setAttribute('aria-hidden', 'true');
-          document.body.classList.remove('case-open');
+          unlockBodyScroll();
         }
 
         document.addEventListener(
@@ -4397,6 +4431,7 @@
         aiCaseDetail.addEventListener('click', (event) => {
           if (event.target === aiCaseDetail) closeAiCaseDetail();
         });
+        aiCaseCanvas.addEventListener('click', (event) => { event.stopPropagation(); });
 
         document.addEventListener('keydown', (event) => {
           if (event.key !== 'Escape') return;
