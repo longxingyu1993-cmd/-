@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" style="background:#000;color-scheme:dark;">
+<html lang="zh-CN" style="background:#000;color-scheme:dark;overflow-x:hidden;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +11,15 @@
     />
     <title>龙星宇 | Personal Portfolio</title>
     <style>
+      /* [FONT LOCK] Arial Black - local web font for stat numbers */
+      @font-face {
+        font-family: 'ArialBlack';
+        src: url('/fonts/Arial-Black.ttf') format('truetype');
+        font-weight: 900;
+        font-style: normal;
+        font-display: block;
+      }
+
       html,
       body,
       #viewport,
@@ -18,13 +27,15 @@
         background: #000;
       }
 
+      html, body {
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif !important;
+      }
+
       body {
         margin: 0;
         color: #eef5f2;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
       }
     </style>
-    <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high" />
     <style>
       :root {
         --gin: #eef5f2;
@@ -77,6 +88,7 @@
       video {
         display: block;
         max-width: 100%;
+        height: auto; /* [RESPONSIVE FIX] Maintain aspect ratio */
       }
 
       .absolute { position: absolute; }
@@ -89,7 +101,62 @@
       .justify-center { justify-content: center; }
       .justify-between { justify-content: space-between; }
       .overflow-hidden { overflow: hidden; }
-      .whitespace-nowrap { white-space: nowrap; }
+      /* ═══════════════════════════════════════════════════
+         .mobile-stats Tailwind-compatible utility classes
+         ═══════════════════════════════════════════════════ */
+      .grid { display: grid; }
+      .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+      .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+      .gap-4 { gap: 1rem; }
+      .p-4 { padding: 1rem; }
+      .rounded { border-radius: 0.375rem; }
+      .border { border: 1px solid rgba(238, 245, 242, 0.12); }
+      .min-w-\[120px\] { min-width: 120px; }
+      .flex-shrink-0 { flex-shrink: 0; }
+      .text-6xl { font-size: 3.75rem; line-height: 1; }
+      .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+      .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+
+      /* Tablet responsive overrides */
+      @media (min-width: 768px) and (max-width: 1199px) {
+        .tablet\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .tablet\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+      }
+
+      /* Phone responsive overrides */
+      @media (max-width: 767px) {
+        .mobile\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .mobile\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+      }
+
+      
+      .font-\['PingFang_SC'\] { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+      /* [FONT LOCK] Stats numbers: ArialBlack, labels: PingFang SC */
+      .mobile-stats p.whitespace-nowrap {
+        font-family: 'ArialBlack', "Arial Black", "PingFang SC", sans-serif !important;
+        font-weight: 900;
+      }
+      .mobile-stats p:not(.whitespace-nowrap) {
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif !important;
+      }
+
+            .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+      .text-xs { font-size: 0.75rem; line-height: 1rem; }
+      [class~="text-white/50"] { color: rgba(255, 255, 255, 0.5); }
+      .mt-1 { margin-top: 0.25rem; }
+      [class~="text-\[11px\]"] { font-size: 11px; }
+
+      /* Tablet: text-xs */
+      @media (min-width: 768px) and (max-width: 1199px) {
+        .tablet\:text-xs { font-size: 0.75rem; line-height: 1rem; }
+      }
+
+      /* Phone: text-[11px] */
+      @media (max-width: 767px) {
+        .mobile\:text-\[11px\] { font-size: 11px; }
+      }
+
+.whitespace-nowrap { white-space: nowrap; }
       .top-0 { top: 0; }
       .left-0 { left: 0; }
       .top-4 { top: 1rem; }
@@ -195,7 +262,8 @@
       #viewport {
         position: relative;
         width: 100%;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: clip;
         background: #000;
       }
 
@@ -204,7 +272,8 @@
         width: 1909px;
         height: 5668px;
         margin: 0 auto;
-        overflow: visible;
+        overflow-x: visible;
+        overflow-y: visible;
         transform-origin: top left;
         background: #000;
         will-change: transform;
@@ -226,87 +295,35 @@
         object-fit: cover;
         background: #000;
         opacity: 1;
-        filter: grayscale(0.04) saturate(1) brightness(1.02) contrast(1.04);
         transition: opacity 480ms ease;
+      }
+
+      /* [HERO-OVERLAY] Dark video background — between video and text */
+      .hero-video-overlay {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.75);
+        pointer-events: none;
+      }
+
+      /* Desktop: match video dimensions */
+      #frame > .hero-video-overlay {
+        left: var(--frame-fullbleed-left);
+        top: 0;
+        width: var(--frame-viewport-width);
+        height: 1080px;
+      }
+
+      /* Mobile/Tablet: full hero area */
+      .mobile-hero > .hero-video-overlay {
+        inset: 0;
+        width: 100%;
+        height: 100%;
       }
 
       .mobile-hero,
       .mobile-hero video {
         background: #000;
-      }
-
-      .video-bg.has-video-error {
-        opacity: 0;
-      }
-
-      .video-fallback {
-        position: absolute;
-        inset: 0 0 auto;
-        right: auto;
-        left: var(--frame-fullbleed-left);
-        width: var(--frame-viewport-width);
-        max-width: none;
-        height: 1080px;
-        object-fit: cover;
-        background: #000;
-        filter: grayscale(0.04) saturate(1) brightness(1.02) contrast(1.04);
-        pointer-events: none;
-      }
-
-      .video-mask {
-        position: absolute;
-        inset: 0 0 auto;
-        right: auto;
-        left: var(--frame-fullbleed-left);
-        width: var(--frame-viewport-width);
-        max-width: none;
-        height: 1080px;
-        pointer-events: none;
-        background:
-          radial-gradient(
-            ellipse at 50% 42%,
-            rgba(0, 0, 0, 0.02) 0%,
-            rgba(0, 0, 0, 0.05) 34%,
-            rgba(0, 0, 0, 0.42) 71%,
-            rgba(0, 0, 0, 0.82) 100%
-          ),
-          linear-gradient(
-            180deg,
-            rgba(0, 0, 0, 0.36) 0%,
-            rgba(0, 0, 0, 0) 28%,
-            rgba(0, 0, 0, 0.36) 76%,
-            rgba(0, 0, 0, 0.72) 100%
-          ),
-          linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.76) 0%,
-            rgba(0, 0, 0, 0) 31%,
-            rgba(0, 0, 0, 0) 67%,
-            rgba(0, 0, 0, 0.76) 100%
-          );
-      }
-
-      .video-mask::before {
-        position: absolute;
-        inset: 0;
-        content: "";
-        background: rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(14px) saturate(0.95);
-        -webkit-backdrop-filter: blur(14px) saturate(0.95);
-        mask: radial-gradient(
-          ellipse at 50% 42%,
-          transparent 0%,
-          transparent 40%,
-          #000 69%,
-          #000 100%
-        );
-        -webkit-mask: radial-gradient(
-          ellipse at 50% 42%,
-          transparent 0%,
-          transparent 40%,
-          #000 69%,
-          #000 100%
-        );
+        opacity: 1;
       }
 
       .liquid-ether-bg {
@@ -336,6 +353,14 @@
 
       .liquid-ether-bg.is-active {
         opacity: 1;
+      }
+
+      /* [RESPONSIVE FIX] Progress bar / centered block container */
+      .progress-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
       }
 
       .panel {
@@ -425,7 +450,7 @@
 
       .resume-glow-card > .edge-light {
         inset: calc(var(--glow-padding) * -1);
-        z-index: 1;
+        z-index: 0;
         mix-blend-mode: plus-lighter;
         mask-image: conic-gradient(
           from var(--cursor-angle) at center,
@@ -574,7 +599,7 @@
         position: absolute;
         left: 54px;
         top: 40px;
-        z-index: 1;
+        z-index: 0;
         display: grid;
         width: 1160px;
         margin: 0;
@@ -674,8 +699,14 @@
       }
 
       .glass-icon-slot {
-        width: 38px;
-        height: 38px;
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
         overflow: visible;
       }
 
@@ -684,8 +715,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 38px;
-        height: 38px;
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        min-height: 48px;
         color: #eef5f2;
         isolation: isolate;
       }
@@ -720,9 +753,11 @@
 
       .fallback-glass-icon svg {
         position: relative;
-        z-index: 1;
-        width: 18px;
-        height: 18px;
+        z-index: 0;
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        min-height: 24px;
         stroke: currentColor;
         stroke-width: 1.8;
         stroke-linecap: round;
@@ -736,10 +771,9 @@
         transform: translate3d(0, 8px, 0);
       }
 
-      .mobile-skill-card .glass-icon-slot {
-        width: 36px;
-        height: 36px;
-        margin-bottom: 14px;
+      .mobile-skill-card .fallback-glass-icon svg {
+        width: 28px;
+        height: 28px;
       }
 
       .btn {
@@ -964,6 +998,7 @@
       .num {
         font-family: "Arial Black", Impact, Inter, sans-serif;
         font-weight: 900;
+        white-space: nowrap; /* [RESPONSIVE FIX] Prevent number line-break */
       }
 
       .tool-marquee {
@@ -1535,6 +1570,10 @@
         }
       }
 
+      /* ═══════════════════════════════════════════════════
+         BREAKPOINT: Tablet + Phone (≤1199px)
+         Switches from desktop #viewport to .mobile-shell layout
+         ═══════════════════════════════════════════════════ */
       @media (max-width: 1199px) {
         html,
         body {
@@ -1551,7 +1590,8 @@
         .mobile-shell {
           display: block;
           min-height: 100vh;
-          overflow: hidden;
+          overflow-x: hidden;
+          overflow-y: auto;
           background: #000;
           color: var(--gin);
         }
@@ -1564,6 +1604,8 @@
         }
 
         .mobile-container {
+          position: relative;
+          z-index: 2;
           width: min(100% - 40px, 720px);
           margin: 0 auto;
         }
@@ -1583,36 +1625,12 @@
           height: 100%;
           object-fit: cover;
           background: #000;
-          opacity: 0.78;
-          filter: brightness(1.08) contrast(1.06) saturate(1.04);
-          transition: opacity 480ms ease;
-        }
-
-        .mobile-video-fallback {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          background: #000;
-          opacity: 0.78;
-          filter: brightness(1.08) contrast(1.06) saturate(1.04);
-          pointer-events: none;
-        }
-
-        .mobile-hero::after {
-          position: absolute;
-          inset: 0;
-          content: "";
-          background:
-            radial-gradient(ellipse at 50% 42%, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.16) 44%, rgba(0, 0, 0, 0.78) 100%),
-            linear-gradient(180deg, rgba(0, 0, 0, 0.54) 0%, rgba(0, 0, 0, 0.08) 36%, rgba(0, 0, 0, 0.78) 100%);
-          pointer-events: none;
+          opacity: 1;
         }
 
         .mobile-top {
           position: relative;
-          z-index: 1;
+          z-index: 2;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -1678,7 +1696,7 @@
 
         .mobile-kicker {
           margin: 0 0 16px;
-          color: rgba(238, 245, 242, 0.62);
+          color: rgba(255, 255, 255, 0.62);
           font-family: Inter, ui-sans-serif, system-ui, sans-serif;
           font-size: 12px;
           font-weight: 700;
@@ -1714,7 +1732,7 @@
 
         .mobile-copy {
           margin: 0;
-          color: rgba(238, 245, 242, 0.64);
+          color: rgba(255, 255, 255, 0.7);
           font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
           font-size: 14px;
           font-weight: 400;
@@ -1733,13 +1751,14 @@
           align-items: center;
           justify-content: center;
           gap: 8px;
-          min-width: 108px;
-          height: 42px;
+          min-width: max(108px, 44px); /* [RESPONSIVE FIX] Min touch target */
+          height: 44px;  /* [RESPONSIVE FIX] WCAG 44px minimum */
+          min-height: 44px;
           padding: 0 16px;
           border: 1px solid rgba(238, 245, 242, 0.16);
           border-radius: 4px;
           background: rgba(255, 255, 255, 0.04);
-          color: rgba(238, 245, 242, 0.74);
+          color: rgba(255, 255, 255, 0.78);
           font-size: 13px;
           text-decoration: none;
           transition:
@@ -1754,7 +1773,7 @@
         .mobile-btn.primary {
           border-color: var(--lime);
           background: var(--lime);
-          color: #202020;
+          color: #050608;
         }
 
         .mobile-btn:hover,
@@ -1781,7 +1800,7 @@
         .mobile-motto em {
           display: block;
           margin-top: 4px;
-          color: rgba(238, 245, 242, 0.58);
+          color: rgba(255, 255, 255, 0.68);
           font-size: 12px;
           font-style: normal;
           line-height: 18px;
@@ -1790,6 +1809,9 @@
         .mobile-section {
           padding: 64px 0;
           background: #000;
+        }
+        #m-capability {
+          padding-top: 48px;
         }
 
         .mobile-eyebrow {
@@ -1816,6 +1838,8 @@
         .mobile-stat,
         .mobile-work-card,
         .mobile-skill-card {
+          padding: 18px;
+          overflow: visible; /* [FIXED-PX LOCK] prevent icon bg clipping from border-radius */
           border: 1px solid rgba(238, 245, 242, 0.1);
           border-radius: 4px;
           background:
@@ -1849,13 +1873,14 @@
 
         .mobile-stats {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
           gap: 10px;
           margin: 16px 0 34px;
         }
 
         .mobile-stat {
           padding: 16px;
+          min-width: 120px; /* [RESPONSIVE FIX] Prevent card squeeze */
+          flex-shrink: 0;   /* [RESPONSIVE FIX] Card won't shrink */
         }
 
         .mobile-stat strong {
@@ -1864,7 +1889,8 @@
           font-family: "Arial Black", Impact, Inter, sans-serif;
           font-size: 30px;
           letter-spacing: 0;
-          line-height: 34px;
+          line-height: 1.1;
+          white-space: nowrap; /* [RESPONSIVE FIX] Prevent stat numbers wrapping */
         }
 
         .mobile-stat span {
@@ -1875,36 +1901,43 @@
           line-height: 18px;
         }
 
+        /* [LOCKED] Timeline: border-image on first item aligns line with dot center */
         .mobile-timeline {
           display: grid;
-          gap: 10px;
+          gap: 0;
         }
 
         .mobile-timeline-item {
           position: relative;
-          display: grid;
-          gap: 8px;
-          padding: 14px 0 14px 16px;
+          display: block;
+          padding: 0 0 24px 24px;
           border-left: 1px solid rgba(140, 255, 46, 0.34);
         }
+        .mobile-timeline-item:first-child {
+          border-left-style: solid;
+          border-image: linear-gradient(to bottom, transparent 8px, rgba(140, 255, 46, 0.34) 8px) 1;
+        }
+        .mobile-timeline-item:last-child {
+          border-left-style: solid;
+          border-image: linear-gradient(to bottom, rgba(140, 255, 46, 0.34) 8px, transparent 8px) 1;
+        }
 
-        .mobile-timeline-item::before {
+        .timeline-dot {
           position: absolute;
-          left: -5.5px;
-          top: 18px;
+          left: -3px;
+          top: 5px;
           display: block;
-          width: 11px;
-          height: 11px;
-          content: "";
-          border: 1px solid rgba(238, 245, 242, 0.62);
+          width: 6px;
+          height: 6px;
+          border: none;
+          outline: none;
           border-radius: 50%;
-          background:
-            radial-gradient(circle at center, var(--lime) 0 2px, transparent 2.5px),
-            rgba(0, 0, 0, 0.86);
-          box-shadow: 0 0 14px rgba(148, 255, 39, 0.32);
+          background: var(--lime);
         }
 
         .mobile-timeline-item time {
+          display: block;
+          margin-bottom: 4px;
           color: rgba(238, 245, 242, 0.5);
           font-family: Inter, sans-serif;
           font-size: 12px;
@@ -1912,7 +1945,7 @@
         }
 
         .mobile-timeline-item h3 {
-          margin: 0;
+          margin: 0 0 2px 0;
           color: #fff;
           font-size: 16px;
           font-weight: 500;
@@ -1920,51 +1953,53 @@
         }
 
         .mobile-timeline-item p {
-          margin: 0;
+          margin: 0 0 8px 0;
           color: var(--lime);
           font-size: 12px;
           line-height: 18px;
         }
 
         .mobile-timeline-item ul {
-          display: grid;
-          gap: 6px;
           margin: 0;
           padding-left: 0;
           list-style: none;
           color: rgba(238, 245, 242, 0.66);
           font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
           font-size: 13px;
-          font-weight: 400;
           line-height: 21px;
         }
 
         .mobile-timeline-item li {
           position: relative;
+          padding-left: 12px;
+          margin-bottom: 4px;
+        }
+        .mobile-timeline-item:last-child {
+          padding-bottom: 0;
+        }
+        .mobile-timeline-item li:last-child {
+          margin-bottom: 0;
         }
 
         .mobile-timeline-item li::before {
           position: absolute;
-          left: -13px;
-          top: 9px;
+          left: 0;
+          top: 8px;
           width: 4px;
           height: 4px;
           content: "";
           border-radius: 50%;
           background: rgba(148, 255, 39, 0.78);
-          box-shadow: 0 0 10px rgba(148, 255, 39, 0.28);
         }
 
         .mobile-tool-row {
           display: block;
           position: relative;
-          margin-top: 22px;
+          margin-top: 32px;
           overflow: hidden;
-          padding-bottom: 12px;
+          padding: 8px 0;
           color: rgba(238, 245, 242, 0.62);
           scrollbar-width: none;
-          mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-          -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
         }
 
         .mobile-tool-row::-webkit-scrollbar {
@@ -1988,6 +2023,7 @@
 
         .mobile-tool-row span {
           flex: 0 0 auto;
+          min-width: max-content;
           font-family: Inter, sans-serif;
           font-size: 14px;
           line-height: 20px;
@@ -2078,6 +2114,7 @@
 
         .mobile-skill-card {
           padding: 18px;
+          overflow: visible; /* [FIXED-PX LOCK] prevent icon bg clipping */
         }
 
         .mobile-skill-card h3 {
@@ -2095,6 +2132,8 @@
           font-weight: 400;
           line-height: 21px;
         }
+
+
 
         .mobile-contact-title {
           margin: 0 0 22px;
@@ -2133,6 +2172,10 @@
         }
       }
 
+      /* ═══════════════════════════════════════════════════
+         BREAKPOINT: Phone (<768px)
+         Hamburger menu, single column, touch-friendly
+         ═══════════════════════════════════════════════════ */
       @media (max-width: 767px) {
         .mobile-nav {
           display: none;
@@ -2263,9 +2306,67 @@
           display: none;
         }
 
+        /* Phone: hamburger menu button visible by default (JS toggles it) */
+      }
+
+      /* Phone: hamburger menu button visible */
+      @media (max-width: 767px) {
+        .mobile-menu-button {
+          display: inline-flex;
+        }
+
+        .mobile-menu-panel {
+          display: grid;
+        }
+
+        /* Phone: hide desktop-style top bar */
         #mobileMenuButton,
         #mobileMenuPanel {
-          display: none !important;
+          display: block;
+        }
+        .mobile-works {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+
+        .mobile-skills {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        /* [RESPONSIVE FIX] Phone: stats 2 columns, font min 30px (text-3xl) */
+        .mobile-stats {
+          gap: 10px;
+        }
+
+        .mobile-stat {
+          min-width: 120px; /* [RESPONSIVE FIX] Prevent card squeeze */
+          flex-shrink: 0;   /* [RESPONSIVE FIX] Card won't shrink */
+        }
+
+        .mobile-stat strong {
+          font-size: max(30px, 1.875rem); /* [RESPONSIVE FIX] Min text-3xl (30px), locked */
+          line-height: 1.1;
+          white-space: nowrap; /* [RESPONSIVE FIX] Never wrap */
+        }
+
+        .mobile-contact-line {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .mobile-section {
+          padding: 64px 0;
+        }
+
+        /* [FIXED-PX LOCK] Capability section fixed spacing */
+        #m-capability {
+          padding-top: 48px;
+          margin-top: 0;
+        }
+
+        .mobile-hero-content {
+          padding-top: 32px;
         }
       }
 
@@ -2280,8 +2381,14 @@
         }
       }
 
+      /* ═══════════════════════════════════════════════════
+         BREAKPOINT: Tablet (768px - 1199px)
+         2-column grid, scaled navigation, adjusted spacing
+         ═══════════════════════════════════════════════════ */
       @media (min-width: 768px) and (max-width: 1199px) {
         .mobile-container {
+          position: relative;
+          z-index: 2;
           width: min(100% - 72px, 1080px);
         }
 
@@ -2352,6 +2459,12 @@
           padding: 104px 0;
         }
 
+
+        /* [FIXED-PX LOCK] Capability section fixed spacing */
+        #m-capability {
+          padding-top: 48px;
+          margin-top: 0;
+        }
         .mobile-heading {
           margin-bottom: 34px;
           font-size: 50px;
@@ -2373,49 +2486,48 @@
           gap: 16px;
         }
 
+        /* [RESPONSIVE FIX] Tablet: stats 2 columns, font min 36px (text-4xl) */
         .mobile-stats {
-          grid-template-columns: repeat(4, 1fr);
           gap: 14px;
           margin: 20px 0 56px;
         }
 
         .mobile-stat {
           padding: 22px;
+          min-width: 120px; /* [RESPONSIVE FIX] Prevent card squeeze */
+          flex-shrink: 0;   /* [RESPONSIVE FIX] Card won't shrink */
         }
 
         .mobile-stat strong {
-          font-size: 38px;
-          line-height: 42px;
+          font-size: max(38px, 2.25rem); /* [RESPONSIVE FIX] Min text-4xl (36px), locked */
+          line-height: 1.1;
+          white-space: nowrap; /* [RESPONSIVE FIX] Never wrap */
         }
 
-        .mobile-timeline {
-          gap: 18px;
-        }
-
+        /* [LOCKED] Tablet timeline */
         .mobile-timeline-item {
-          grid-template-columns: 190px minmax(0, 1fr);
-          gap: 6px 24px;
-          padding: 22px 0 22px 20px;
+          padding: 0 0 24px 28px;
+          border-left: 1px solid rgba(140, 255, 46, 0.34);
         }
-
-        .mobile-timeline-item time {
-          grid-row: span 2;
-          padding-top: 2px;
+        .mobile-timeline-item:first-child {
+          border-image: linear-gradient(to bottom, transparent 8px, rgba(140, 255, 46, 0.34) 8px) 1;
         }
-
-        .mobile-timeline-item h3 {
-          font-size: 18px;
-          line-height: 26px;
+        .mobile-timeline-item:last-child {
+          padding-bottom: 0;
+          border-left-style: solid;
+          border-image: linear-gradient(to bottom, rgba(140, 255, 46, 0.34) 8px, transparent 8px) 1;
         }
-
-        .mobile-timeline-item ul {
-          grid-column: 2;
-          margin-top: 4px;
+        .timeline-dot {
+          left: -3px;
+          top: 5px;
         }
 
         .mobile-tool-row {
-          gap: 28px;
-          margin-top: 36px;
+          margin-top: 40px;
+          padding: 10px 0;
+        }
+        .mobile-tool-row span {
+          font-size: 16px;
         }
 
         .mobile-works {
@@ -2435,7 +2547,10 @@
 
         .mobile-skill-card {
           padding: 24px;
+          overflow: visible; /* [FIXED-PX LOCK] prevent icon bg clipping */
         }
+
+  
 
         .mobile-contact-title {
           max-width: 900px;
@@ -2447,10 +2562,32 @@
           width: min(100%, 780px);
           padding: 30px;
         }
+
+        /* Tablet: show inline nav, hide hamburger */
+        .mobile-nav {
+          display: inline-flex;
+        }
+
+        .mobile-menu-button,
+        .mobile-menu-panel {
+          display: none;
+        }
+
+        /* Tablet: keep mobile-top visible with adjusted layout */
+        .mobile-top {
+          display: flex;
+        }
+
+        /* Tablet: contact buttons inline */
+        .mobile-contact-line {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+        }
       }
     </style>
   </head>
-  <body style="background:#000;color:#eef5f2;">
+  <body style="background:#000;color:#eef5f2;overflow-x:hidden;">
     <main id="viewport">
       <section id="frame">
         <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true" focusable="false">
@@ -2461,12 +2598,11 @@
             <path d="M12.5357 1.39282H0.464286C0.207478 1.39282 0 1.6003 0 1.85711V11.1428C0 11.3996 0.207478 11.6071 0.464286 11.6071H12.5357C12.7925 11.6071 13 11.3996 13 11.1428V1.85711C13 1.6003 12.7925 1.39282 12.5357 1.39282ZM11.9554 3.00041V10.5625H1.04464V3.00041L0.644196 2.68847L1.2144 1.95577L1.83538 2.43892H11.1661L11.7871 1.95577L12.3573 2.68847L11.9554 3.00041ZM11.1661 2.43747L6.5 6.0647L1.83393 2.43747L1.21295 1.95432L0.642746 2.68702L1.04319 2.99896L5.99944 6.85253C6.14198 6.96327 6.31733 7.02338 6.49782 7.02338C6.67832 7.02338 6.85367 6.96327 6.99621 6.85253L11.9554 3.00041L12.3558 2.68847L11.7856 1.95577L11.1661 2.43747Z" fill="currentColor" />
           </symbol>
         </svg>
-        <img class="video-fallback" src="assets/hero-poster.jpg" alt="" aria-hidden="true" decoding="async" fetchpriority="high" data-video-fallback="desktop" />
-        <video class="video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/hero-poster.jpg" data-hero-video="desktop">
+        <video class="video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto" data-hero-video="desktop">
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
+        <div class="hero-video-overlay" aria-hidden="true"></div>
         <div id="liquidEtherBg" class="liquid-ether-bg" aria-hidden="true"></div>
-        <div class="video-mask"></div>
 
         <a href="#home" class="absolute flex items-center font-inter" style="left:104px;top:25px;width:122px;height:28px">
           <span class="text-[28px] leading-[28px] font-black text-lime">LXY</span>
@@ -2496,7 +2632,7 @@
 
         <p class="absolute flex items-center font-cn text-[13px] leading-[22px] text-white/70" style="left:104px;top:899px;width:340px;height:23px">年全链路 UI / UX 与企业端产品交付经验</p>
         <p class="absolute flex items-center font-cn text-[14px] leading-[24px] text-white/70" style="left:104px;top:922px;width:330px;height:25px">把复杂业务转成清晰、稳定、可落地的产品体验。</p>
-        <p class="absolute flex items-center num text-[100px] leading-[70px] text-lime" style="left:104px;top:797px;width:340px;height:71px" data-countup data-to="10" data-suffix="+">10+</p>
+        <p class="absolute flex items-center num text-[100px] leading-[70px] text-lime" style="left:104px;top:797px;width:340px;height:71px;white-space:nowrap" data-countup data-to="10" data-suffix="+">10+</p>
 
         <a href="#works" class="btn btn-primary font-cn font-normal" style="left:104px;top:983px;width:109px">
           <span>→</span><span>查看作品</span>
@@ -2702,10 +2838,10 @@
 
     <main id="mobileLayout" class="mobile-shell" aria-label="移动端作品集">
       <section id="m-home" class="mobile-hero">
-        <img class="mobile-video-fallback" src="assets/hero-poster.jpg" alt="" aria-hidden="true" decoding="async" fetchpriority="high" data-video-fallback="mobile" />
-        <video autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/hero-poster.jpg" data-hero-video="mobile">
+        <video autoplay muted loop playsinline webkit-playsinline preload="auto" data-hero-video="mobile">
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
+        <div class="hero-video-overlay" aria-hidden="true"></div>
         <div class="mobile-container">
           <div class="mobile-top">
             <a href="#m-home" class="mobile-logo">LXY<span>Portfolio</span></a>
@@ -2735,7 +2871,7 @@
             </div>
             <div class="mobile-hero-bottom">
               <div>
-                <p class="mobile-number" data-countup data-to="10" data-suffix="+">10+</p>
+                <p class="mobile-number" data-countup data-to="10" data-suffix="+" style="white-space:nowrap">10+</p>
                 <p class="mobile-copy">年全链路 UI / UX 与企业端产品交付经验，把复杂业务转成清晰、稳定、可落地的产品体验。</p>
                 <div class="mobile-actions">
                   <a class="mobile-btn primary" href="#m-works">查看作品</a>
@@ -2765,17 +2901,31 @@
             </div>
           </article>
 
-          <div class="mobile-stats">
-            <div class="mobile-stat"><strong data-countup data-to="10" data-suffix="+">10+</strong><span>年全链路设计经验</span></div>
-            <div class="mobile-stat"><strong data-countup data-to="20" data-suffix="+">20+</strong><span>落地项目</span></div>
-            <div class="mobile-stat"><strong data-countup data-to="95" data-suffix="%+">95%+</strong><span>客户满意度</span></div>
-            <div class="mobile-stat"><strong data-countup data-to="5000" data-suffix="+">5000+</strong><span>项目页面</span></div>
+          <!-- [RESPONSIVE FIX] .mobile-stats: grid 4→2→2, nowrap, min font, card protection -->
+          <div class="mobile-stats grid grid-cols-4 tablet:grid-cols-2 mobile:grid-cols-2 gap-4">
+            <div class="min-w-[120px] flex-shrink-0 p-4 border rounded">
+              <p class="whitespace-nowrap text-6xl tablet:text-4xl mobile:text-3xl" data-countup data-to="10" data-suffix="+">10+</p>
+              <p class="text-sm tablet:text-xs mobile:text-[11px] text-white/50 mt-1">年全链路设计经验</p>
+            </div>
+            <div class="min-w-[120px] flex-shrink-0 p-4 border rounded">
+              <p class="whitespace-nowrap text-6xl tablet:text-4xl mobile:text-3xl" data-countup data-to="20" data-suffix="+">20+</p>
+              <p class="text-sm tablet:text-xs mobile:text-[11px] text-white/50 mt-1">落地项目</p>
+            </div>
+            <div class="min-w-[120px] flex-shrink-0 p-4 border rounded">
+              <p class="whitespace-nowrap text-6xl tablet:text-4xl mobile:text-3xl" data-countup data-to="95" data-suffix="%+">95%+</p>
+              <p class="text-sm tablet:text-xs mobile:text-[11px] text-white/50 mt-1">客户满意度</p>
+            </div>
+            <div class="min-w-[120px] flex-shrink-0 p-4 border rounded">
+              <p class="whitespace-nowrap text-6xl tablet:text-4xl mobile:text-3xl" data-countup data-to="5000" data-suffix="+">5000+</p>
+              <p class="text-sm tablet:text-xs mobile:text-[11px] text-white/50 mt-1">项目页面</p>
+            </div>
           </div>
 
           <div class="mobile-timeline">
             <article class="mobile-timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
               <time>2024.04 - 至今</time>
-              <h3>成都慢睿科技有限公司</h3>
+              <h3>成都慢音科技有限公司</h3>
               <p>UI设计师 / 产品经理助理</p>
               <ul>
                 <li>独立负责政企安全软件与可视化产品 UI 全案设计，覆盖需求调研、原型、评审、UI 出图、交付文档、研发跟进与上线验收。</li>
@@ -2785,6 +2935,7 @@
               </ul>
             </article>
             <article class="mobile-timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
               <time>2022.09 - 2024.03</time>
               <h3>微网优联科技（成都）有限公司</h3>
               <p>UI设计师</p>
@@ -2795,6 +2946,7 @@
               </ul>
             </article>
             <article class="mobile-timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
               <time>2021.03 - 2022.07</time>
               <h3>成都明迪快闪股份有限公司</h3>
               <p>产品经理 / UI设计 / 测试运营</p>
@@ -2804,6 +2956,7 @@
               </ul>
             </article>
             <article class="mobile-timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
               <time>2019.12 - 2020.10</time>
               <h3>四川强运科技有限公司</h3>
               <p>UI设计师</p>
@@ -2813,6 +2966,7 @@
               </ul>
             </article>
             <article class="mobile-timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
               <time>2019.02 - 2019.11</time>
               <h3>成都威爱新经济技术研究院有限公司</h3>
               <p>UI设计师</p>
@@ -2821,6 +2975,7 @@
               </ul>
             </article>
             <article class="mobile-timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
               <time>2016.05 - 2019.02</time>
               <h3>上海柏略信息技术有限公司</h3>
               <p>UI设计师</p>
@@ -2831,6 +2986,7 @@
             </article>
           </div>
 
+        </div>
           <div class="mobile-tool-row" aria-label="工具能力">
             <div id="mobileToolLogoLoop" class="mobile-tool-loop-root">
               <div class="mobile-tool-track" aria-hidden="true">
@@ -2843,7 +2999,6 @@
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       <section id="m-works" class="mobile-section">
@@ -3817,7 +3972,7 @@
       const timeline = [
         {
           time: '2024.04 - 至今',
-          company: '成都慢睿科技有限公司',
+          company: '成都慢音科技有限公司',
           role: 'UI设计师 / 产品经理助理',
           top: 1966,
           cardTop: 1904,

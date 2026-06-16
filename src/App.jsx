@@ -328,7 +328,6 @@ function Hero() {
 
   return (
     <section className="hero" id="home">
-      <img className="hero-fallback-image" src="assets/hero-poster.jpg" alt="" aria-hidden="true" decoding="async" />
       <video
         ref={videoRef}
         className={`hero-video${hasVideoError ? ' has-video-error' : ''}`}
@@ -337,7 +336,6 @@ function Hero() {
         loop
         playsInline
         preload="auto"
-        poster="assets/hero-poster.jpg"
         onLoadedData={() => setHasVideoError(false)}
         onCanPlay={() => setHasVideoError(false)}
         onPlaying={() => setHasVideoError(false)}
@@ -455,9 +453,6 @@ function Resume() {
         <div className="resume-grid">
           <section className="resume-profile-card resume-panel">
             <div className="resume-profile-inner">
-              <div className="resume-avatar">
-                <img src="assets/profile-avatar.png" alt="龙星宇" />
-              </div>
             </div>
           </section>
 

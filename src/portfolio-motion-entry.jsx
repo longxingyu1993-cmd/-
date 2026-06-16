@@ -175,6 +175,7 @@ function waitForEnhancements() {
 }
 
 function setupOpeningAnimation() {
+  return; // Disabled: hero shows video only
   const frame = q('#frame');
   const mobileHero = q('.mobile-hero');
   const desktopActive = isVisible(frame);

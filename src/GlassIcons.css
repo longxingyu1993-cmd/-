@@ -1,3 +1,8 @@
+/* ═══════════════════════════════════════════════════════
+   GlassIcons — desktop (em-based, original)
+   Mobile & cap overrides use FIXED PX — no scaling
+   ═══════════════════════════════════════════════════════ */
+
 .icon-btns {
   display: grid;
   grid-gap: 5em;
@@ -105,6 +110,11 @@
   transform: translateY(20%);
 }
 
+/* ═══════════════════════════════════════════════════════
+   [FIXED-PX LOCK] cap-glass-icons + mobile-cap-glass-icons
+   All dimensions in fixed px — icons never stretch, crop, or scale
+   ═══════════════════════════════════════════════════════ */
+
 .cap-glass-icons,
 .mobile-cap-glass-icons {
   display: block;
@@ -117,14 +127,18 @@
 .mobile-cap-glass-icons .icon-btn {
   width: 38px;
   height: 38px;
+  min-width: 38px;
+  min-height: 38px;
   font-size: 9px;
+  flex-shrink: 0;
+  overflow: visible;
 }
 
 .cap-glass-icons .icon-btn__back,
 .mobile-cap-glass-icons .icon-btn__back {
   box-shadow:
-    0.35em -0.35em 0.55em rgba(0, 0, 0, 0.18),
-    0 0 1.1em rgba(148, 255, 39, 0.08);
+    3px -3px 5px rgba(0, 0, 0, 0.18),
+    0 0 9px rgba(148, 255, 39, 0.08);
 }
 
 .cap-glass-icons .icon-btn__front,
@@ -132,19 +146,25 @@
   box-shadow:
     0 0 0 1px rgba(238, 245, 242, 0.2) inset,
     0 7px 18px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
+/* [FIXED-PX LOCK] SVG icon — locked at 16px, never inherits em scaling */
 .cap-glass-icons .icon-btn__icon,
 .mobile-cap-glass-icons .icon-btn__icon {
-  width: 1.45em;
-  height: 1.45em;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  flex-shrink: 0;
 }
 
 .cap-glass-icons .icon-btn:focus-visible .icon-btn__front,
 .cap-glass-icons .icon-btn:hover .icon-btn__front,
 .mobile-cap-glass-icons .icon-btn:focus-visible .icon-btn__front,
 .mobile-cap-glass-icons .icon-btn:hover .icon-btn__front {
-  transform: translate3d(0, 0, 1.5em);
+  transform: translate3d(0, 0, 14px);
 }
 
 .cap-glass-icons .icon-btn__label,
@@ -152,20 +172,35 @@
   display: none;
 }
 
+/* [FIXED-PX LOCK] Mobile-specific override — 36px fixed square */
 .mobile-cap-glass-icons .icon-btn {
   width: 36px;
   height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   font-size: 8.5px;
+  flex-shrink: 0;
+  overflow: visible;
 }
 
+/* ═══════════════════════════════════════════════════════
+   BREAKPOINT: Phone (<640px)
+   ═══════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
   .cap-glass-icons .icon-btn {
     width: 36px;
     height: 36px;
+    min-width: 36px;
+    min-height: 36px;
     font-size: 8.5px;
+    flex-shrink: 0;
+    overflow: visible;
   }
 }
 
+/* ═══════════════════════════════════════════════════════
+   BREAKPOINT: Tablet+ (≥768px) — desktop icon grid 3-col
+   ═══════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
   .icon-btns {
     grid-template-columns: repeat(3, 1fr);
