@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   ArrowRightOutlined,
   MailOutlined,
@@ -287,98 +287,44 @@ function App() {
 }
 
 function Hero() {
-  const videoRef = useRef(null);
-  const [hasVideoError, setHasVideoError] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return undefined;
-
-    const markReady = () => setHasVideoError(false);
-    const play = () => {
-      const promise = video.play();
-      if (promise && typeof promise.catch === 'function') promise.catch(() => {});
-    };
-    const playWhenVisible = () => {
-      if (!document.hidden) play();
-    };
-
-    video.load();
-    play();
-    if (video.readyState >= 2) markReady();
-    video.addEventListener('loadeddata', markReady, { once: true });
-    video.addEventListener('canplay', markReady, { once: true });
-    video.addEventListener('playing', markReady, { once: true });
-    video.addEventListener('canplay', play, { once: true });
-    document.addEventListener('visibilitychange', playWhenVisible);
-    ['pointerdown', 'touchstart', 'click', 'scroll'].forEach((eventName) => {
-      window.addEventListener(eventName, play, { once: true, passive: true });
-    });
-    return () => {
-      video.removeEventListener('loadeddata', markReady);
-      video.removeEventListener('canplay', markReady);
-      video.removeEventListener('playing', markReady);
-      video.removeEventListener('canplay', play);
-      document.removeEventListener('visibilitychange', playWhenVisible);
-      ['pointerdown', 'touchstart', 'click', 'scroll'].forEach((eventName) => {
-        window.removeEventListener(eventName, play);
-      });
-    };
-  }, []);
-
   return (
     <section className="hero" id="home">
-      <video
-        ref={videoRef}
-        className={`hero-video${hasVideoError ? ' has-video-error' : ''}`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        onLoadedData={() => setHasVideoError(false)}
-        onCanPlay={() => setHasVideoError(false)}
-        onPlaying={() => setHasVideoError(false)}
-        onError={() => setHasVideoError(true)}
-      >
-        <source src="assets/hero-motion.mp4" type="video/mp4" />
-      </video>
-      <div className="hero-overlay" aria-hidden="true" />
-
       <SiteHeader />
 
       <div className="hero-stage">
-        <div className="hero-title-block">
-          <span className="hero-kicker">[PORTFOLIO]</span>
-          <PixelTitle text="HI,I AM XINGYU" />
+        <div className="hero-copy">
+          <p className="hero-kicker">Long Xingyu Portfolio</p>
+          <h1>把复杂业务整理成清晰、稳定、可交付的产品体验。</h1>
+          <p>
+            UI / UX 设计师，10 年全链路经验。专注政企安全、B 端系统、数据可视化、移动端产品与组件化设计。
+          </p>
+          <div className="hero-actions">
+            <Button className="ui-button primary" href="#projects" icon={<ArrowRightOutlined />}>
+              查看精选作品
+            </Button>
+            <Button className="ui-button ghost" href="#resume">
+              查看经历
+            </Button>
+          </div>
         </div>
 
-        <div className="hero-bottom-grid">
-          <div className="hero-proof">
-            <strong>10+</strong>
-            <span>
-              年全链路 UI / UX 与企业端产品交付经验
-              <br />
-              把复杂业务转成清晰、稳定、可落地的产品体验。
-            </span>
-            <div className="hero-actions">
-              <Button className="ui-button primary" href="#projects" icon={<ArrowRightOutlined />}>
-                查看作品
-              </Button>
-              <Button className="ui-button ghost" href="mailto:lxy152827@sina.com">
-                lxy152827@sina.com
-              </Button>
+        <div className="hero-showcase" aria-label="代表作品预览">
+          {[projects[0], projects[1], projects[5]].map((item) => (
+            <button className="hero-work-card" key={item.id} type="button" onClick={() => document.querySelector('#projects')?.scrollIntoView()}>
+              <img src={item.cover} alt={`${item.title}预览`} />
+              <span>{item.type}</span>
+              <b>{item.title}</b>
+            </button>
+          ))}
+        </div>
+
+        <div className="hero-proof">
+          {resumeStats.map((item) => (
+            <div key={item.label}>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
             </div>
-          </div>
-
-          <p className="hero-line">覆盖政企安全、企业后台、数据可视化、新零售、App 与小程序。</p>
-
-          <div className="hero-slogan">
-            <b>
-              <span>设计</span>不是装饰
-            </b>
-            <small>是结构、秩序和交付</small>
-          </div>
+          ))}
         </div>
       </div>
     </section>
@@ -453,6 +399,17 @@ function Resume() {
         <div className="resume-grid">
           <section className="resume-profile-card resume-panel">
             <div className="resume-profile-inner">
+              <div className="resume-avatar">
+                <img src="assets/profile-avatar.webp" alt="龙星宇头像" />
+              </div>
+              <dl className="profile-facts">
+                {profileFacts.map((fact) => (
+                  <div key={fact.label}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </section>
 

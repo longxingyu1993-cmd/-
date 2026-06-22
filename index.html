@@ -4,7 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
-    <link rel="preload" href="/fonts/Arial-Black.ttf" as="font" type="font/ttf" crossorigin />    <meta name="color-scheme" content="dark" />
+    <link rel="preload" href="fonts/Arial-Black.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="assets/hero-motion.mp4" as="video" type="video/mp4" />
+    <script>
+      (() => {
+        const preloadAsset = (href, as, type) => {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.href = new URL(href, location.href).href;
+          link.as = as;
+          if (type) link.type = type;
+          document.head.appendChild(link);
+        };
+        preloadAsset('assets/index.css', 'style', 'text/css');
+        preloadAsset('assets/file-enhancements.css', 'style', 'text/css');
+        preloadAsset('assets/file-enhancements.js', 'script');
+      })();
+    </script>
+    <meta name="color-scheme" content="dark" />
     <meta
       name="description"
       content="龙星宇个人作品集，UI 设计师、UX / 交互设计师、产品助理。"
@@ -14,7 +31,7 @@
       /* [FONT LOCK] Arial Black - local web font for stat numbers */
       @font-face {
         font-family: 'ArialBlack';
-        src: url('/fonts/Arial-Black.ttf') format('truetype');
+        src: url('fonts/Arial-Black.ttf') format('truetype');
         font-weight: 900;
         font-style: normal;
         font-display: swap;
