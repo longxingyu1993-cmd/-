@@ -923,7 +923,7 @@
 
       .floating-logo {
         position: relative;
-        display: inline-flex;
+        display: flex;
         align-items: center;
         width: max-content;
         color: inherit;
@@ -1132,6 +1132,99 @@
 
       .modal.is-open {
         display: flex;
+      }
+
+      .mobile-project-sheet {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 18px 20px 32px;
+        background: #000;
+        color: var(--gin);
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
+      }
+
+      .mobile-project-sheet.is-open {
+        display: block;
+      }
+
+      .mobile-project-panel {
+        width: 100%;
+        min-height: calc(100svh - 50px);
+        padding-bottom: 28px;
+      }
+
+      .mobile-project-close {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        margin: 0 0 18px auto;
+        border: 1px solid rgba(238, 245, 242, 0.16);
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.82);
+        color: rgba(238, 245, 242, 0.86);
+        font-size: 14px;
+        line-height: 1;
+      }
+
+      .mobile-project-sheet img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        border: 1px solid rgba(238, 245, 242, 0.12);
+        border-radius: 4px;
+        object-fit: cover;
+        background: #090909;
+      }
+
+      .mobile-project-meta {
+        margin: 18px 0 10px;
+        color: rgba(148, 255, 39, 0.9);
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      .mobile-project-title {
+        margin: 0 0 14px;
+        color: #fff;
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 36px;
+      }
+
+      .mobile-project-text {
+        margin: 0;
+        color: rgba(238, 245, 242, 0.68);
+        font-size: 14px;
+        line-height: 26px;
+      }
+
+      .mobile-project-actions {
+        display: grid;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .mobile-project-actions a,
+      .mobile-project-actions button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        border: 1px solid rgba(238, 245, 242, 0.14);
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.045);
+        color: rgba(238, 245, 242, 0.84);
+        font-size: 14px;
       }
 
       #modalClose {
@@ -1641,17 +1734,14 @@
           min-height: 100svh;
           padding: 18px 0 32px;
           overflow: hidden;
-          background: #000;
+          background:
+            linear-gradient(180deg, rgba(0, 0, 0, 0.1), #000 82%),
+            url('assets/hero-poster.webp') center / cover no-repeat,
+            #000;
         }
 
         .mobile-hero video {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          background: #000;
-          opacity: 1;
+          display: none;
         }
 
         .mobile-top {
@@ -1665,7 +1755,7 @@
 
         .mobile-logo {
           position: relative;
-          display: inline-flex;
+          display: flex;
           align-items: center;
           gap: 10px;
           font-family: Inter, ui-sans-serif, system-ui, sans-serif;
@@ -2177,6 +2267,98 @@
         .modal > div {
           width: min(100%, 720px);
           padding: 24px;
+        }
+
+        .mobile-project-sheet {
+          position: fixed;
+          inset: 0;
+          z-index: 80;
+          display: none;
+          overflow-x: hidden;
+          overflow-y: auto;
+          padding: 18px 20px 32px;
+          background: #000;
+          color: var(--gin);
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
+        }
+
+        .mobile-project-sheet.is-open {
+          display: block;
+        }
+
+        .mobile-project-panel {
+          width: 100%;
+          min-height: calc(100svh - 50px);
+          padding-bottom: 28px;
+        }
+
+        .mobile-project-close {
+          position: sticky;
+          top: 0;
+          z-index: 2;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 42px;
+          height: 42px;
+          margin: 0 0 18px auto;
+          border: 1px solid rgba(238, 245, 242, 0.16);
+          border-radius: 4px;
+          background: rgba(0, 0, 0, 0.82);
+          color: rgba(238, 245, 242, 0.86);
+          font-size: 14px;
+          line-height: 1;
+        }
+
+        .mobile-project-sheet img {
+          width: 100%;
+          aspect-ratio: 16 / 10;
+          border: 1px solid rgba(238, 245, 242, 0.12);
+          border-radius: 4px;
+          object-fit: cover;
+          background: #090909;
+        }
+
+        .mobile-project-meta {
+          margin: 18px 0 10px;
+          color: rgba(148, 255, 39, 0.9);
+          font-size: 12px;
+          line-height: 18px;
+        }
+
+        .mobile-project-title {
+          margin: 0 0 14px;
+          color: #fff;
+          font-size: 28px;
+          font-weight: 600;
+          line-height: 36px;
+        }
+
+        .mobile-project-text {
+          margin: 0;
+          color: rgba(238, 245, 242, 0.68);
+          font-size: 14px;
+          line-height: 26px;
+        }
+
+        .mobile-project-actions {
+          display: grid;
+          gap: 10px;
+          margin-top: 24px;
+        }
+
+        .mobile-project-actions a,
+        .mobile-project-actions button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 44px;
+          border: 1px solid rgba(238, 245, 242, 0.14);
+          border-radius: 4px;
+          background: rgba(255, 255, 255, 0.045);
+          color: rgba(238, 245, 242, 0.84);
+          font-size: 14px;
         }
 
         .case-detail {
@@ -2881,10 +3063,7 @@
 
     <main id="mobileLayout" class="mobile-shell" aria-label="移动端作品集">
       <section id="m-home" class="mobile-hero">
-        <video autoplay muted loop playsinline webkit-playsinline preload="none" data-hero-video="mobile">
-          <source src="assets/hero-motion-mobile.mp4" media="(max-width: 1199px)" type="video/mp4" />
-          <source src="assets/hero-motion.mp4" type="video/mp4" />
-        </video>
+        <video muted loop playsinline webkit-playsinline preload="none" data-hero-video="mobile" aria-hidden="true"></video>
         <div class="hero-video-overlay" aria-hidden="true"></div>
         <div class="mobile-container">
           <div class="mobile-top">
@@ -3621,6 +3800,20 @@
       <img id="imageLightboxImg" src="" alt="" />
     </div>
 
+    <div id="mobileProjectSheet" class="mobile-project-sheet" aria-hidden="true">
+      <article class="mobile-project-panel" role="dialog" aria-modal="true" aria-labelledby="mobileProjectTitle">
+        <button id="mobileProjectClose" class="mobile-project-close" type="button">关闭</button>
+        <img id="mobileProjectImage" src="" alt="" decoding="async" />
+        <p id="mobileProjectMeta" class="mobile-project-meta"></p>
+        <h3 id="mobileProjectTitle" class="mobile-project-title"></h3>
+        <p id="mobileProjectText" class="mobile-project-text"></p>
+        <div class="mobile-project-actions">
+          <a href="mailto:lxy152827@sina.com">联系我查看完整案例</a>
+          <button id="mobileProjectBack" type="button">返回作品列表</button>
+        </div>
+      </article>
+    </div>
+
     <div id="wechatPopover" class="fixed z-[60] hidden rounded-figma border border-white/15 bg-black/90 p-4 text-center shadow-2xl backdrop-blur-xl">
       <img src="assets/wechat-qr-lxy.jpg" alt="微信二维码" class="block h-auto w-[220px] max-w-[70vw] rounded-[6px] bg-white" loading="lazy" decoding="async" />
     </div>
@@ -3633,6 +3826,8 @@
         };
 
         document.querySelectorAll('[data-hero-video]').forEach((video) => {
+          if (video.dataset.heroVideo === 'mobile') return;
+
           video.muted = true;
           video.playsInline = true;
           video.setAttribute('playsinline', '');
@@ -4240,6 +4435,13 @@
       const imageLightbox = document.getElementById('imageLightbox');
       const imageLightboxImg = document.getElementById('imageLightboxImg');
       const imageLightboxClose = document.getElementById('imageLightboxClose');
+      const mobileProjectSheet = document.getElementById('mobileProjectSheet');
+      const mobileProjectClose = document.getElementById('mobileProjectClose');
+      const mobileProjectBack = document.getElementById('mobileProjectBack');
+      const mobileProjectImage = document.getElementById('mobileProjectImage');
+      const mobileProjectMeta = document.getElementById('mobileProjectMeta');
+      const mobileProjectTitle = document.getElementById('mobileProjectTitle');
+      const mobileProjectText = document.getElementById('mobileProjectText');
 
       const caseImageObservers = new WeakMap();
 
@@ -4288,6 +4490,28 @@
       function isMobileExperience() {
         return window.matchMedia('(max-width: 1199px)').matches;
       }
+
+      function openMobileProjectSummary(card) {
+        const [title = '', text = ''] = (card.dataset.project || '').split('|');
+        const image = card.querySelector('img');
+        const meta = card.querySelector('p')?.textContent?.trim() || 'Selected Work';
+        const small = card.querySelector('small')?.textContent?.trim();
+        mobileProjectTitle.textContent = title;
+        mobileProjectText.textContent = small ? `${text} ${small}` : text;
+        mobileProjectMeta.textContent = meta;
+        mobileProjectImage.src = image?.currentSrc || image?.src || '';
+        mobileProjectImage.alt = image?.alt || title || '作品预览';
+        mobileProjectSheet.classList.add('is-open');
+        mobileProjectSheet.setAttribute('aria-hidden', 'false');
+        mobileProjectSheet.scrollTop = 0;
+      }
+
+      function closeMobileProjectSummary() {
+        mobileProjectSheet.classList.remove('is-open');
+        mobileProjectSheet.setAttribute('aria-hidden', 'true');
+        mobileProjectImage.removeAttribute('src');
+      }
+
       function lockBodyScroll() {
         if (document.body.classList.contains('case-open')) return;
         _lockedScrollY = window.scrollY;
@@ -4307,6 +4531,7 @@
       }
 
       function closeAllCaseLayers(except = null) {
+        closeMobileProjectSummary();
         [caseDetail, mobileCaseDetail, screenCaseDetail, visualCaseDetail, document.getElementById('aiCaseDetail')].forEach((layer) => {
           if (!layer || layer === except) return;
           layer.classList.remove('is-open');
@@ -4391,6 +4616,10 @@
 
       document.querySelectorAll('[data-project]').forEach((card) => {
         card.addEventListener('click', () => {
+          if (isMobileExperience() && card.closest('.mobile-shell')) {
+            openMobileProjectSummary(card);
+            return;
+          }
           if (card.dataset.detail === 'bsec') {
             openCaseDetail();
             return;
@@ -4413,6 +4642,11 @@
           modal.classList.add('is-open');
           lockBodyScroll();
         });
+      });
+      mobileProjectClose.addEventListener('click', closeMobileProjectSummary);
+      mobileProjectBack.addEventListener('click', closeMobileProjectSummary);
+      mobileProjectSheet.addEventListener('click', (event) => {
+        if (event.target === mobileProjectSheet) closeMobileProjectSummary();
       });
       /* [MOBILE-FIX] Modal scroll lock */
       document.getElementById('modalClose').addEventListener('click', () => {
@@ -4462,6 +4696,10 @@
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           setMobileMenu(false);
+          if (mobileProjectSheet.classList.contains('is-open')) {
+            closeMobileProjectSummary();
+            return;
+          }
           if (imageLightbox.classList.contains('is-open')) {
             closeImageLightbox();
             return;
@@ -4522,6 +4760,7 @@
           (event) => {
             const trigger = event.target.closest('[data-project^="AI概念设计|"]');
             if (!trigger) return;
+            if (isMobileExperience() && trigger.closest('.mobile-shell')) return;
             event.preventDefault();
             event.stopPropagation();
             event.stopImmediatePropagation();
@@ -4551,16 +4790,7 @@
       } else {
         const enhancementSrc = new URL(`${portfolioBundleBase}file-enhancements.js`, location.href).href;
         const loadEnhancements = () => loadPortfolioScript(enhancementSrc, false);
-        if (window.matchMedia('(max-width: 1199px)').matches) {
-          const loadLater = () => {
-            if ('requestIdleCallback' in window) {
-              requestIdleCallback(loadEnhancements, { timeout: 2600 });
-            } else {
-              setTimeout(loadEnhancements, 1600);
-            }
-          };
-          window.addEventListener('load', loadLater, { once: true });
-        } else {
+        if (!window.matchMedia('(max-width: 1199px)').matches) {
           loadEnhancements();
         }
       }
