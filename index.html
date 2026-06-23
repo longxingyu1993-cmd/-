@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
     <link rel="preload" href="fonts/Arial-Black.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="assets/hero-motion.mp4" as="video" type="video/mp4" />
+    <link rel="preload" href="assets/hero-motion.mp4" as="video" type="video/mp4" media="(min-width: 1200px)" />
+    <link rel="preload" href="assets/hero-motion-mobile.mp4" as="video" type="video/mp4" media="(max-width: 1199px)" />
     <script>
       (() => {
         const preloadAsset = (href, as, type) => {
@@ -1216,7 +1217,6 @@
         position: fixed;
         width: 100%;
         overflow: hidden;
-        touch-action: none;
       }
       .case-detail {
         position: fixed;
@@ -1224,6 +1224,7 @@
         z-index: 70;
         display: block;
         overflow: hidden;
+        overscroll-behavior: contain;
         background: rgba(0, 0, 0, 0.5);
         color: var(--gin);
         opacity: 0;
@@ -1244,6 +1245,7 @@
         margin: 0 0 0 auto;
         overflow-x: hidden;
         overflow-y: auto;
+        overscroll-behavior: contain;
         touch-action: pan-y;
         -webkit-overflow-scrolling: touch;
         transform: translate3d(100%, 0, 0);
@@ -2179,6 +2181,18 @@
           background: rgba(0, 0, 0, 0.76);
         }
 
+        .case-canvas {
+          right: 0;
+          width: min(100vw, 1200px);
+          max-width: none;
+          height: 100svh;
+          transform: translate3d(100%, 0, 0);
+        }
+
+        .case-detail.is-open .case-canvas {
+          transform: translate3d(0, 0, 0);
+        }
+
         .image-lightbox {
           padding: 20px;
         }
@@ -2861,6 +2875,7 @@
     <main id="mobileLayout" class="mobile-shell" aria-label="移动端作品集">
       <section id="m-home" class="mobile-hero">
         <video autoplay muted loop playsinline webkit-playsinline preload="auto" data-hero-video="mobile">
+          <source src="assets/hero-motion-mobile.mp4" media="(max-width: 1199px)" type="video/mp4" />
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
         <div class="hero-video-overlay" aria-hidden="true"></div>
@@ -3742,8 +3757,14 @@
         setMobileMenu(!mobileMenuPanel.classList.contains('is-open'));
       });
 
-      mobileMenuPanel?.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => setMobileMenu(false));
+      document.querySelectorAll('.mobile-shell a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (!target) return;
+          event.preventDefault();
+          setMobileMenu(false);
+          target.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        });
       });
 
       document.addEventListener('click', (event) => {
@@ -4204,29 +4225,76 @@
       const imageLightboxImg = document.getElementById('imageLightboxImg');
       const imageLightboxClose = document.getElementById('imageLightboxClose');
 
-      function hydrateCaseImages(container) {
-        container.querySelectorAll('.case-image-card img[data-src]').forEach((image) => {
-          if (image.getAttribute('src')) return;
-          image.loading = 'lazy';
-          image.decoding = 'async';
-          image.src = image.dataset.src;
+      const caseImageObservers = new WeakMap();
+
+      function loadCaseImage(image, eager = false) {
+        if (!image || image.getAttribute('src') || !image.dataset.src) return;
+        image.loading = eager ? 'eager' : 'lazy';
+        image.decoding = 'async';
+        if (eager) image.fetchPriority = 'high';
+        image.addEventListener('error', () => image.classList.add('is-error'), { once: true });
+        image.src = image.dataset.src;
+      }
+
+      function hydrateCaseImages(container, options = {}) {
+        const { eagerCount = 4 } = options;
+        const images = Array.from(container.querySelectorAll('.case-image-card img[data-src]'));
+        images.slice(0, eagerCount).forEach((image) => loadCaseImage(image, true));
+
+        if (!('IntersectionObserver' in window)) {
+          images.slice(eagerCount).forEach((image) => loadCaseImage(image));
+          return;
+        }
+
+        let observer = caseImageObservers.get(container);
+        if (!observer) {
+          const root = container.querySelector('.case-canvas') || null;
+          observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                loadCaseImage(entry.target);
+                observer.unobserve(entry.target);
+              });
+            },
+            { root, rootMargin: '900px 0px', threshold: 0.01 }
+          );
+          caseImageObservers.set(container, observer);
+        }
+
+        images.slice(eagerCount).forEach((image) => {
+          if (!image.getAttribute('src')) observer.observe(image);
         });
       }
 
       /* [MOBILE-FIX] Scroll lock — save/restore position to prevent iOS flash */
       let _lockedScrollY = 0;
       function lockBodyScroll() {
+        if (document.body.classList.contains('case-open')) return;
         _lockedScrollY = window.scrollY;
         document.body.style.top = `-${_lockedScrollY}px`;
         document.body.classList.add('case-open');
       }
       function unlockBodyScroll() {
+        const hasOpenLayer = document.querySelector('.case-detail.is-open, .modal.is-open, .image-lightbox.is-open');
+        if (hasOpenLayer) return;
         document.body.classList.remove('case-open');
         document.body.style.top = '';
         window.scrollTo(0, _lockedScrollY);
       }
 
+      function closeAllCaseLayers(except = null) {
+        [caseDetail, mobileCaseDetail, screenCaseDetail, visualCaseDetail, document.getElementById('aiCaseDetail')].forEach((layer) => {
+          if (!layer || layer === except) return;
+          layer.classList.remove('is-open');
+          layer.setAttribute('aria-hidden', 'true');
+        });
+        modal.classList.remove('is-open');
+        closeImageLightbox();
+      }
+
       function openCaseDetail() {
+        closeAllCaseLayers(caseDetail);
         hydrateCaseImages(caseDetail);
         caseDetail.classList.add('is-open');
         caseDetail.setAttribute('aria-hidden', 'false');
@@ -4241,6 +4309,7 @@
       }
 
       function openMobileCaseDetail() {
+        closeAllCaseLayers(mobileCaseDetail);
         hydrateCaseImages(mobileCaseDetail);
         mobileCaseDetail.classList.add('is-open');
         mobileCaseDetail.setAttribute('aria-hidden', 'false');
@@ -4255,6 +4324,7 @@
       }
 
       function openScreenCaseDetail() {
+        closeAllCaseLayers(screenCaseDetail);
         hydrateCaseImages(screenCaseDetail);
         screenCaseDetail.classList.add('is-open');
         screenCaseDetail.setAttribute('aria-hidden', 'false');
@@ -4269,6 +4339,7 @@
       }
 
       function openVisualCaseDetail() {
+        closeAllCaseLayers(visualCaseDetail);
         hydrateCaseImages(visualCaseDetail);
         visualCaseDetail.classList.add('is-open');
         visualCaseDetail.setAttribute('aria-hidden', 'false');
@@ -4408,17 +4479,9 @@
 
         if (!aiCaseDetail || !aiCaseClose || !aiCaseCanvas) return;
 
-        function hydrateAiCaseImages() {
-          aiCaseDetail.querySelectorAll('.case-image-card img[data-src]').forEach((image) => {
-            if (image.getAttribute('src')) return;
-            image.loading = 'lazy';
-            image.decoding = 'async';
-            image.src = image.dataset.src;
-          });
-        }
-
         function openAiCaseDetail() {
-          hydrateAiCaseImages();
+          closeAllCaseLayers(aiCaseDetail);
+          hydrateCaseImages(aiCaseDetail);
           aiCaseDetail.classList.add('is-open');
           aiCaseDetail.setAttribute('aria-hidden', 'false');
           lockBodyScroll();
