@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
+    <style>html,body{margin:0;background:#000!important;color:#eef5f2;}</style>
     <link rel="preload" href="fonts/Arial-Black.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="assets/hero-motion.mp4" as="video" type="video/mp4" media="(min-width: 1200px)" />
-    <link rel="preload" href="assets/hero-motion-mobile.mp4" as="video" type="video/mp4" media="(max-width: 1199px)" />
     <script>
       (() => {
         const preloadAsset = (href, as, type) => {
@@ -19,7 +19,9 @@
         };
         preloadAsset('assets/index.css', 'style', 'text/css');
         preloadAsset('assets/file-enhancements.css', 'style', 'text/css');
-        preloadAsset('assets/file-enhancements.js', 'script');
+        if (!window.matchMedia('(max-width: 1199px)').matches) {
+          preloadAsset('assets/file-enhancements.js', 'script');
+        }
       })();
     </script>
     <meta name="color-scheme" content="dark" />
@@ -2193,6 +2195,11 @@
           transform: translate3d(0, 0, 0);
         }
 
+        body.case-open {
+          position: static;
+          overflow: hidden;
+        }
+
         .image-lightbox {
           padding: 20px;
         }
@@ -2874,7 +2881,7 @@
 
     <main id="mobileLayout" class="mobile-shell" aria-label="移动端作品集">
       <section id="m-home" class="mobile-hero">
-        <video autoplay muted loop playsinline webkit-playsinline preload="auto" data-hero-video="mobile">
+        <video autoplay muted loop playsinline webkit-playsinline preload="none" data-hero-video="mobile">
           <source src="assets/hero-motion-mobile.mp4" media="(max-width: 1199px)" type="video/mp4" />
           <source src="assets/hero-motion.mp4" type="video/mp4" />
         </video>
@@ -3649,8 +3656,16 @@
             video.classList.add('has-video-error');
           });
 
-          video.load();
-          tryPlay();
+          const startVideo = () => {
+            video.load();
+            tryPlay();
+          };
+
+          if (video.dataset.heroVideo === 'mobile') {
+            window.addEventListener('load', () => setTimeout(startVideo, 500), { once: true });
+          } else {
+            startVideo();
+          }
 
           ['pointerdown', 'touchstart', 'click', 'scroll'].forEach((eventName) => {
             window.addEventListener(eventName, tryPlay, { once: true, passive: true });
@@ -3763,7 +3778,8 @@
           if (!target) return;
           event.preventDefault();
           setMobileMenu(false);
-          target.scrollIntoView({ block: 'start', behavior: 'smooth' });
+          const top = target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top, left: 0, behavior: 'auto' });
         });
       });
 
@@ -4269,18 +4285,25 @@
 
       /* [MOBILE-FIX] Scroll lock — save/restore position to prevent iOS flash */
       let _lockedScrollY = 0;
+      function isMobileExperience() {
+        return window.matchMedia('(max-width: 1199px)').matches;
+      }
       function lockBodyScroll() {
         if (document.body.classList.contains('case-open')) return;
         _lockedScrollY = window.scrollY;
-        document.body.style.top = `-${_lockedScrollY}px`;
         document.body.classList.add('case-open');
+        if (!isMobileExperience()) {
+          document.body.style.top = `-${_lockedScrollY}px`;
+        }
       }
       function unlockBodyScroll() {
         const hasOpenLayer = document.querySelector('.case-detail.is-open, .modal.is-open, .image-lightbox.is-open');
         if (hasOpenLayer) return;
         document.body.classList.remove('case-open');
         document.body.style.top = '';
-        window.scrollTo(0, _lockedScrollY);
+        if (!isMobileExperience()) {
+          window.scrollTo(0, _lockedScrollY);
+        }
       }
 
       function closeAllCaseLayers(except = null) {
@@ -4526,7 +4549,20 @@
         loadPortfolioScript('./src/react-bits-entry.jsx');
         loadPortfolioScript('./src/portfolio-motion-entry.jsx');
       } else {
-        loadPortfolioScript(new URL(`${portfolioBundleBase}file-enhancements.js`, location.href).href, false);
+        const enhancementSrc = new URL(`${portfolioBundleBase}file-enhancements.js`, location.href).href;
+        const loadEnhancements = () => loadPortfolioScript(enhancementSrc, false);
+        if (window.matchMedia('(max-width: 1199px)').matches) {
+          const loadLater = () => {
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(loadEnhancements, { timeout: 2600 });
+            } else {
+              setTimeout(loadEnhancements, 1600);
+            }
+          };
+          window.addEventListener('load', loadLater, { once: true });
+        } else {
+          loadEnhancements();
+        }
       }
     </script>
   </body>
